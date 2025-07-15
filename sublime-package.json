@@ -1,0 +1,48 @@
+{
+  "contributions": {
+    "settings": [
+      {
+        "file_patterns": [
+          "/LSP-Lean.sublime-settings"
+        ],
+        "schema": {
+          "$id": "sublime://settings/LSP-Lean",
+          "allOf": [
+            {
+              "$ref": "sublime://settings/LSP-plugin-base"
+            },
+            {
+              "$ref": "sublime://settings/LSP-Lean#/definitions/PluginConfig"
+            }
+          ],
+          "definitions": {
+            "PluginConfig": {
+              "properties": {
+              }
+            }
+          }
+        }
+      },
+      {
+        "file_patterns": [
+          "/*.sublime-project"
+        ],
+        "schema": {
+          "properties": {
+            "settings": {
+              "properties": {
+                "LSP": {
+                  "properties": {
+                    "LSP-Lean": {
+                      "$ref": "sublime://settings/LSP-Lean#/definitions/PluginConfig"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

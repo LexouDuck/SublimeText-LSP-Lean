@@ -1,0 +1,28 @@
+{
+	"env": {
+		// "JAVA_HOME": "C:\\Program Files\\Java\\jre1.8.0_251",
+		// "HTTP_PROXY_HOST": "",
+		// "HTTP_PROXY_PORT": "",
+		// "HTTP_PROXY_USERNAME": "",
+		// "HTTP_PROXY_PASSWORD": "",
+	},
+
+	// Start this server when opening a lean file
+	"selector": "source.lean",
+
+	// The startup command for this language server
+	"command": [
+		"lean",
+		"--server"
+	],
+
+	// Initialization options sent to the subprocess during startup.
+	// You should normally not touch this.
+	"initializationOptions": {
+		// We understand how to handle configuration changes from the server.
+		"changeConfiguration": true
+	},
+
+	"settings": {
+	}
+}
