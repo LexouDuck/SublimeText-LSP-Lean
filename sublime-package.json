@@ -3,16 +3,16 @@
     "settings": [
       {
         "file_patterns": [
-          "/LSP-Lean.sublime-settings"
+          "/LSP-lean.sublime-settings"
         ],
         "schema": {
-          "$id": "sublime://settings/LSP-Lean",
+          "$id": "sublime://settings/LSP-lean",
           "allOf": [
             {
               "$ref": "sublime://settings/LSP-plugin-base"
             },
             {
-              "$ref": "sublime://settings/LSP-Lean#/definitions/PluginConfig"
+              "$ref": "sublime://settings/LSP-lean#/definitions/PluginConfig"
             }
           ],
           "definitions": {
@@ -33,8 +33,8 @@
               "properties": {
                 "LSP": {
                   "properties": {
-                    "LSP-Lean": {
-                      "$ref": "sublime://settings/LSP-Lean#/definitions/PluginConfig"
+                    "LSP-lean": {
+                      "$ref": "sublime://settings/LSP-lean#/definitions/PluginConfig"
                     }
                   }
                 }

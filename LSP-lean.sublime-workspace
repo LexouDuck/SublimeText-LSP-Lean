@@ -1,0 +1,1617 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"multi",
+				"multiprocessing"
+			],
+			[
+				"paren",
+				"parenleft"
+			],
+			[
+				"bracket",
+				"bracketleft"
+			],
+			[
+				"brace",
+				"braceright"
+			],
+			[
+				"ba",
+				"backslash"
+			],
+			[
+				"pare",
+				"parenleft"
+			],
+			[
+				"par",
+				"parenright"
+			],
+			[
+				"struc",
+				"structures"
+			],
+			[
+				"as",
+				"asterisk"
+			],
+			[
+				"a",
+				"parens"
+			],
+			[
+				"ma",
+				"match"
+			],
+			[
+				"str",
+				"string_latex"
+			],
+			[
+				"pro",
+				"property_name"
+			],
+			[
+				"file",
+				"filepath_output"
+			],
+			[
+				"stru",
+				"structures"
+			],
+			[
+				"prop",
+				"property_formula"
+			],
+			[
+				"exi",
+				"exist_ok="
+			],
+			[
+				"mak",
+				"makedirs"
+			],
+			[
+				"File",
+				"FileExistsError"
+			],
+			[
+				"filter",
+				"filter_properties"
+			],
+			[
+				"writ",
+				"write"
+			],
+			[
+				"remo",
+				"removesuffix"
+			],
+			[
+				"proper",
+				"property"
+			],
+			[
+				"line",
+				"lineno"
+			],
+			[
+				"colu",
+				"column_cell"
+			],
+			[
+				"col",
+				"column_cell"
+			],
+			[
+				"Key",
+				"KeyboardInterrupt"
+			],
+			[
+				"dir",
+				"listdir"
+			],
+			[
+				"view",
+				"views_valids"
+			],
+			[
+				"views",
+				"views_valids"
+			],
+			[
+				"is",
+				"isdir"
+			],
+			[
+				"ls",
+				"listdir"
+			],
+			[
+				"sys",
+				"system"
+			],
+			[
+				"cur",
+				"current_team"
+			],
+			[
+				"unit_",
+				"unit_at"
+			],
+			[
+				"cu",
+				"current_team"
+			],
+			[
+				"unit_c",
+				"unit_create"
+			],
+			[
+				"inp",
+				"input_events"
+			],
+			[
+				"Opt",
+				"Optional"
+			],
+			[
+				"get_d",
+				"get_drop_menu"
+			],
+			[
+				"RuleDa",
+				"RuleDataDict_PieceDrop"
+			],
+			[
+				"drop",
+				"drop_menuitem"
+			],
+			[
+				"prom",
+				"promotion_rules"
+			],
+			[
+				"res",
+				"restrict_occupied"
+			],
+			[
+				"G",
+				"GAME_TURN"
+			],
+			[
+				"ene",
+				"enemy_kings"
+			],
+			[
+				"s",
+				"size"
+			],
+			[
+				"Optio",
+				"Optional"
+			],
+			[
+				"uni",
+				"unit_at"
+			],
+			[
+				"__a",
+				"__annotations__"
+			],
+			[
+				"weapon",
+				"weaponexp_new"
+			],
+			[
+				"get_",
+				"get_weaponexp"
+			],
+			[
+				"get",
+				"get_weaponrank"
+			],
+			[
+				"wea",
+				"weaponexp_old"
+			],
+			[
+				"we",
+				"weapon_levels"
+			],
+			[
+				"le",
+				"levelup"
+			],
+			[
+				"off",
+				"offender_name"
+			],
+			[
+				"menu",
+				"menu_info_panel"
+			],
+			[
+				"tot",
+				"total_damage_dealt"
+			],
+			[
+				"atta",
+				"attacker"
+			],
+			[
+				"selected",
+				"selected_units"
+			],
+			[
+				"ran",
+				"random_hit_kind"
+			],
+			[
+				"Ra",
+				"RandomHitKind"
+			],
+			[
+				"Rand",
+				"RandomHitKind"
+			],
+			[
+				"sett",
+				"setting_name"
+			],
+			[
+				"pan",
+				"panel_setting"
+			],
+			[
+				"pa",
+				"panel_map_settings"
+			],
+			[
+				"la",
+				"lambdas"
+			],
+			[
+				"__",
+				"__future__"
+			],
+			[
+				"contin",
+				"continue_from_save"
+			],
+			[
+				"Men",
+				"MenuItem"
+			],
+			[
+				"Menu",
+				"MenuItem"
+			],
+			[
+				"load",
+				"load_settings_map"
+			],
+			[
+				"apply_tea",
+				"apply_team_kind"
+			],
+			[
+				"allo",
+				"allow_negative="
+			],
+			[
+				"Pan",
+				"Panel_Setting_bool"
+			],
+			[
+				"E",
+				"Exception"
+			],
+			[
+				"Not",
+				"NotImplemented"
+			],
+			[
+				"ab",
+				"abstractmethod"
+			],
+			[
+				"damage",
+				"damage_dealt"
+			],
+			[
+				"offen",
+				"offender_weapon"
+			],
+			[
+				"S",
+				"Stat_Lck"
+			],
+			[
+				"r",
+				"randint"
+			],
+			[
+				"eff",
+				"effective_against"
+			],
+			[
+				"des",
+				"deserialize_item"
+			],
+			[
+				"non",
+				"nonselectable_units"
+			],
+			[
+				"sele",
+				"selected_units"
+			],
+			[
+				"late",
+				"latest_move_event"
+			],
+			[
+				"UNI",
+				"UNIT_MOVED"
+			],
+			[
+				"Eve",
+				"EventKind"
+			],
+			[
+				"C",
+				"CURSOR_MOVEMENT"
+			],
+			[
+				"Gam",
+				"GameState"
+			],
+			[
+				"Game",
+				"GameState"
+			],
+			[
+				"state",
+				"state_default"
+			],
+			[
+				"can",
+				"cancel_move"
+			],
+			[
+				"me",
+				"menus"
+			],
+			[
+				"turn",
+				"current_turn"
+			],
+			[
+				"Time",
+				"Timestamp"
+			],
+			[
+				"Pos",
+				"PositionJSON"
+			],
+			[
+				"unit",
+				"unit_adjacent"
+			],
+			[
+				"NotIm",
+				"NotImplementedError"
+			],
+			[
+				"can_",
+				"can_use_item"
+			],
+			[
+				"all",
+				"allow_use"
+			],
+			[
+				"move",
+				"movecancel"
+			],
+			[
+				"MOV",
+				"UNIT_MOVED"
+			],
+			[
+				"St",
+				"Stat_Mov"
+			],
+			[
+				"Panel_Me",
+				"Panel_MenuList"
+			],
+			[
+				"panel_g",
+				"panel_game_proceed"
+			],
+			[
+				"con",
+				"continue_from_save"
+			],
+			[
+				"GamE",
+				"GameEntity"
+			],
+			[
+				"GAM",
+				"GAME_FOLDER"
+			],
+			[
+				"curr",
+				"current_team"
+			],
+			[
+				"Even",
+				"EventData"
+			],
+			[
+				"hist",
+				"history_json"
+			],
+			[
+				"EventDat",
+				"EventData_UnitMoved"
+			],
+			[
+				"EventData_Un",
+				"EventData_UnitMoved"
+			],
+			[
+				"DEF",
+				"DEFAULT_EVENT_FORMATS"
+			],
+			[
+				"EventDa",
+				"EventData_UnitActed"
+			],
+			[
+				"EventData_Game",
+				"EventData_GameBegin"
+			],
+			[
+				"In",
+				"Inventory"
+			],
+			[
+				"stat",
+				"staticmethod"
+			],
+			[
+				"Batt",
+				"BattleAttack"
+			],
+			[
+				"Battle",
+				"BattleAttack"
+			],
+			[
+				"m",
+				"menu_exit"
+			],
+			[
+				"oth",
+				"other_moved_multistep"
+			],
+			[
+				"curre",
+				"current_turn"
+			],
+			[
+				"other",
+				"other_moved_multistep"
+			],
+			[
+				"Ev",
+				"EventKind"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "plugin.py",
+			"settings":
+			{
+				"buffer_size": 8966,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+				[
+					18,
+					1,
+					"left_delete",
+					null,
+					"AQAAABsAAAAAAAAAGwAAAAAAAAA0AAAACmltcG9ydCBzaHV0aWwKaW1wb3J0IHRlbXBmaWxlCmltcG9ydCB1cmxsaWIucmVxdWVzdA",
+					"AQAAAAAAAAABAAAATwAAAAAAAAAbAAAAAAAAAAAAAAAAAGVA"
+				],
+				[
+					22,
+					1,
+					"left_delete",
+					null,
+					"AQAAACoAAAAAAAAAKgAAAAAAAAAeAAAACmltcG9ydCB6aXBmaWxlCmltcG9ydCB0YXJmaWxl",
+					"AQAAAAAAAAABAAAASAAAAAAAAAAqAAAAAAAAAP///////+9/"
+				],
+				[
+					76,
+					1,
+					"insert",
+					{
+						"characters": "\n\n"
+					},
+					"AgAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAQAAAAAAAAACAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					79,
+					1,
+					"",
+					null,
+					"AQAAAAEAAAAAAAAAOwAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAAQAAAAAAAAABAAAAAAAAAAAAAAAAAAAA"
+				],
+				[
+					84,
+					1,
+					"left_delete",
+					null,
+					"AQAAAH8BAAAAAAAAfwEAAAAAAABEAAAACmZyb20gTFNQLnBsdWdpbi5jb3JlLnR5cGluZyBpbXBvcnQgQW55LCBMaXN0LCBEaWN0LCBPcHRpb25hbCwgVHVwbGU",
+					"AQAAAAAAAAABAAAAwwEAAAAAAAB/AQAAAAAAAP///////+9/"
+				],
+				[
+					92,
+					1,
+					"cut",
+					null,
+					"AQAAAH4aAAAAAAAAfhoAAAAAAAAwBAAACgpkZWYgaGFuZGxlX2dvYWxfc3RhdGVfcmVzcG9uc2Uoc2VsZiwgcmVzcG9uc2UpOgogICAgZ29hbHMgPSByZXNwb25zZS5nZXQoJ2dvYWxzJywgW10pCiAgICBodG1sID0gc2VsZi5mb3JtYXRfZ29hbHMoZ29hbHMpCiAgICBzZWxmLnVwZGF0ZV9pbmZvdmlldyhodG1sKQoKZGVmIGZvcm1hdF9nb2FscyhzZWxmLCBnb2Fscyk6CiAgICBpZiBub3QgZ29hbHM6CiAgICAgICAgcmV0dXJuICI8ZGl2Pk5vIGdvYWxzPC9kaXY+IgogICAgCiAgICByZXN1bHQgPSBbXQogICAgZm9yIGksIGdvYWwgaW4gZW51bWVyYXRlKGdvYWxzKToKICAgICAgICByZXN1bHQuYXBwZW5kKGYiIiIKICAgICAgICA8ZGl2IGNsYXNzPSJnb2FsIj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0iZ29hbC1udW1iZXIiPkdvYWwge2krMX08L2Rpdj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0iaHlwb3RoZXNlcyI+CiAgICAgICAgICAgICAgICB7c2VsZi5mb3JtYXRfaHlwb3RoZXNlcyhnb2FsLmh5cG90aGVzZXMpfQogICAgICAgICAgICA8L2Rpdj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0idHVybnN0aWxlIj7iiqI8L2Rpdj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0iY29uY2x1c2lvbiI+e2dvYWwuY29uY2x1c2lvbn08L2Rpdj4KICAgICAgICA8L2Rpdj4KICAgICAgICAiIiIpCiAgICByZXR1cm4gJycuam9pbihyZXN1bHQpCgpkZWYgb25fZGlhZ25vc3RpY3Moc2VsZiwgZGlhZ25vc3RpY3MpOgogICAgZm9yIGRpYWcgaW4gZGlhZ25vc3RpY3M6CiAgICAgICAgc2V2ZXJpdHkgPSBkaWFnLmdldCgnc2V2ZXJpdHknKQogICAgICAgIG1lc3NhZ2UgPSBkaWFnLmdldCgnbWVzc2FnZScpCiAgICAgICAgcmFuZ2VfaW5mbyA9IGRpYWcuZ2V0KCdyYW5nZScpCiAgICAgICAgIyBBZGQgdG8gbWVzc2FnZXMgcGFuZWwKICAgICAgICBzZWxmLm1lc3NhZ2VzLmFwcGVuZCh7CiAgICAgICAgICAgICdzZXZlcml0eSc6IHNldmVyaXR5LAogICAgICAgICAgICAnbWVzc2FnZSc6IG1lc3NhZ2UsCiAgICAgICAgICAgICdyYW5nZSc6IHJhbmdlX2luZm8KICAgICAgICB9KQogICAgc2VsZi51cGRhdGVfbWVzc2FnZXNfcGFuZWwoKQ",
+					"AQAAAAAAAAABAAAArB4AAAAAAAB+GgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					95,
+					1,
+					"paste",
+					null,
+					"AQAAACwZAAAAAAAAWh0AAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAALBkAAAAAAAAsGQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					99,
+					1,
+					"indent",
+					null,
+					"IQAAAC4ZAAAAAAAAMhkAAAAAAAAAAAAAYhkAAAAAAABmGQAAAAAAAAAAAACMGQAAAAAAAJAZAAAAAAAAAAAAALQZAAAAAAAAuBkAAAAAAAAAAAAA2BkAAAAAAADcGQAAAAAAAAAAAAD7GQAAAAAAAP8ZAAAAAAAAAAAAABEaAAAAAAAAFRoAAAAAAAAAAAAAOhoAAAAAAAA+GgAAAAAAAAAAAABDGgAAAAAAAEcaAAAAAAAAAAAAAFcaAAAAAAAAWxoAAAAAAAAAAAAAgBoAAAAAAACEGgAAAAAAAAAAAACfGgAAAAAAAKMaAAAAAAAAAAAAAL4aAAAAAAAAwhoAAAAAAAAAAAAA+BoAAAAAAAD8GgAAAAAAAAAAAAAhGwAAAAAAACUbAAAAAAAAAAAAAF8bAAAAAAAAYxsAAAAAAAAAAAAAdhsAAAAAAAB6GwAAAAAAAAAAAAClGwAAAAAAAKkbAAAAAAAAAAAAAOUbAAAAAAAA6RsAAAAAAAAAAAAA+BsAAAAAAAD8GwAAAAAAAAAAAAAJHAAAAAAAAA0cAAAAAAAAAAAAACkcAAAAAAAALRwAAAAAAAAAAAAAVBwAAAAAAABYHAAAAAAAAAAAAAB1HAAAAAAAAHkcAAAAAAAAAAAAAKEcAAAAAAAApRwAAAAAAAAAAAAAyxwAAAAAAADPHAAAAAAAAAAAAAD2HAAAAAAAAPocAAAAAAAAAAAAABodAAAAAAAAHh0AAAAAAAAAAAAAPR0AAAAAAABBHQAAAAAAAAAAAABjHQAAAAAAAGcdAAAAAAAAAAAAAIcdAAAAAAAAix0AAAAAAAAAAAAAqx0AAAAAAACvHQAAAAAAAAAAAAC6HQAAAAAAAL4dAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAWh0AAAAAAAAtGQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					102,
+					2,
+					"left_delete",
+					null,
+					"AgAAACwZAAAAAAAALBkAAAAAAAABAAAACisZAAAAAAAAKxkAAAAAAAABAAAACg",
+					"AQAAAAAAAAABAAAALRkAAAAAAAAtGQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					114,
+					1,
+					"insert",
+					{
+						"characters": ":"
+					},
+					"AQAAAP0hAAAAAAAA/iEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA/SEAAAAAAAD9IQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					115,
+					1,
+					"insert",
+					{
+						"characters": "sublime.View"
+					},
+					"DAAAAP4hAAAAAAAA/yEAAAAAAAAAAAAA/yEAAAAAAAAAIgAAAAAAAAAAAAAAIgAAAAAAAAEiAAAAAAAAAAAAAAEiAAAAAAAAAiIAAAAAAAAAAAAAAiIAAAAAAAADIgAAAAAAAAAAAAADIgAAAAAAAAQiAAAAAAAAAAAAAAQiAAAAAAAABSIAAAAAAAAAAAAABSIAAAAAAAAGIgAAAAAAAAAAAAAGIgAAAAAAAAciAAAAAAAAAAAAAAciAAAAAAAACCIAAAAAAAAAAAAACCIAAAAAAAAJIgAAAAAAAAAAAAAJIgAAAAAAAAoiAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA/iEAAAAAAAD+IQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					130,
+					1,
+					"cut",
+					null,
+					"AQAAAL4WAAAAAAAAvhYAAAAAAABsAgAACiAgICAKICAgIGRlZiByZXF1ZXN0X2dvYWxfc3RhdGUoc2VsZiwgdmlldywgcm93LCBjb2wpOgogICAgICAgICMgUmVxdWVzdCBnb2FsIGluZm9ybWF0aW9uIGZyb20gTFNQCiAgICAgICAgc2Vzc2lvbiA9IFNlc3Npb24uZm9yX3ZpZXcodmlldywgJ2xlYW40JykKICAgICAgICBpZiBzZXNzaW9uOgogICAgICAgICAgICBwYXJhbXMgPSB7CiAgICAgICAgICAgICAgICAndGV4dERvY3VtZW50Jzogeyd1cmknOiB2aWV3LmZpbGVfbmFtZSgpfSwKICAgICAgICAgICAgICAgICdwb3NpdGlvbic6IHsnbGluZSc6IHJvdywgJ2NoYXJhY3Rlcic6IGNvbH0KICAgICAgICAgICAgfQogICAgICAgICAgICBzZXNzaW9uLnNlbmRfcmVxdWVzdCgKICAgICAgICAgICAgICAgIFJlcXVlc3QoImxlYW4vcGxhaW5Hb2FsIiwgcGFyYW1zKSwKICAgICAgICAgICAgICAgIHNlbGYub25fZ29hbF9yZXNwb25zZQogICAgICAgICAgICApCiAgICAKICAgIGRlZiBvbl9nb2FsX3Jlc3BvbnNlKHNlbGYsIHJlc3BvbnNlKToKICAgICAgICBpZiByZXNwb25zZToKICAgICAgICAgICAgaHRtbCA9IHNlbGYuZm9ybWF0X2dvYWxfaHRtbChyZXNwb25zZSkKICAgICAgICAgICAgc2VsZi51cGRhdGVfaW5mb3ZpZXcoaHRtbCk",
+					"AQAAAAAAAAABAAAAKhkAAAAAAAC+FgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					133,
+					1,
+					"paste",
+					null,
+					"AQAAAIMgAAAAAAAA7yIAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAgyAAAAAAAACDIAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					143,
+					1,
+					"paste",
+					null,
+					"AQAAAK4gAAAAAAAAuyAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAriAAAAAAAACuIAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					148,
+					1,
+					"insert",
+					{
+						"characters": ":int"
+					},
+					"BAAAAMAgAAAAAAAAwSAAAAAAAAAAAAAAwSAAAAAAAADCIAAAAAAAAAAAAADCIAAAAAAAAMMgAAAAAAAAAAAAAMMgAAAAAAAAxCAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAwCAAAAAAAADAIAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					150,
+					1,
+					"insert",
+					{
+						"characters": ":int"
+					},
+					"BAAAAMkgAAAAAAAAyiAAAAAAAAAAAAAAyiAAAAAAAADLIAAAAAAAAAAAAADLIAAAAAAAAMwgAAAAAAAAAAAAAMwgAAAAAAAAzSAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAySAAAAAAAADJIAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					163,
+					1,
+					"insert",
+					{
+						"characters": ":sublime."
+					},
+					"CQAAAAshAAAAAAAADCEAAAAAAAAAAAAADCEAAAAAAAANIQAAAAAAAAAAAAANIQAAAAAAAA4hAAAAAAAAAAAAAA4hAAAAAAAADyEAAAAAAAAAAAAADyEAAAAAAAAQIQAAAAAAAAAAAAAQIQAAAAAAABEhAAAAAAAAAAAAABEhAAAAAAAAEiEAAAAAAAAAAAAAEiEAAAAAAAATIQAAAAAAAAAAAAATIQAAAAAAABQhAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAACyEAAAAAAAALIQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					164,
+					1,
+					"paste",
+					null,
+					"AQAAABQhAAAAAAAAGyEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAFCEAAAAAAAAUIQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					174,
+					2,
+					"left_delete",
+					null,
+					"AgAAAAwhAAAAAAAADCEAAAAAAAAPAAAAc3VibGltZS5TZXNzaW9uCyEAAAAAAAALIQAAAAAAAAEAAAA6",
+					"AQAAAAAAAAABAAAAGyEAAAAAAAAMIQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					186,
+					1,
+					"insert",
+					{
+						"characters": "\n"
+					},
+					"AQAAAGIfAAAAAAAAZx8AAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAYh8AAAAAAABiHwAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					187,
+					1,
+					"left_delete",
+					null,
+					"AQAAAGMfAAAAAAAAYx8AAAAAAAAEAAAAICAgIA",
+					"AQAAAAAAAAABAAAAZx8AAAAAAABnHwAAAAAAAAAAAAAAAPC/"
+				]
+			]
+		},
+		{
+			"file": "/opt/sublime_text/Lib/python38/sublime_plugin.py",
+			"redo_stack":
+			[
+				[
+					8,
+					1,
+					"duplicate_line",
+					null,
+					"AQAAABy/AAAAAAAAHL8AAAAAAAAEAAAAVmlldw",
+					"AQAAAAAAAAABAAAAHL8AAAAAAAAgvwAAAAAAAAAAAAAAAPC/"
+				]
+			],
+			"settings":
+			{
+				"buffer_size": 83328,
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+			]
+		},
+		{
+			"file": "/home/lexou/Projects/Mathematics/Table_AlgebraProperties/ℤₚ/ℤₚ{+}/Associative.lean",
+			"settings":
+			{
+				"buffer_size": 1301,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+			]
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"create ",
+				"PackageDev: Create Package"
+			],
+			[
+				"enable",
+				"LSP: Enable Language Server Globally"
+			],
+			[
+				"previ",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"uni",
+				"Permute Lines: Unique"
+			],
+			[
+				"sort",
+				"Sort Lines"
+			],
+			[
+				"preview",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"markd",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"uniq",
+				"Permute Lines: Unique"
+			],
+			[
+				"sort col",
+				"CSV: Sort by column (Ascending)"
+			],
+			[
+				"select col",
+				"CSV: Select column"
+			],
+			[
+				"csv",
+				"CSV: Select column"
+			],
+			[
+				"sort by col",
+				"CSV: Sort by column (Ascending)"
+			],
+			[
+				"incr",
+				"Increment Selection"
+			],
+			[
+				"decr",
+				"Increment Decrement: decrease the number"
+			],
+			[
+				"inc",
+				"Increment Selection"
+			],
+			[
+				"enab",
+				"LSP: Enable Language Server in Project"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"disa",
+				"Package Control: Disable Package"
+			],
+			[
+				"lsp enable",
+				"LSP: Enable Language Server in Project"
+			],
+			[
+				"dis",
+				"Package Control: Disable Package"
+			],
+			[
+				"enabl",
+				"Package Control: Enable Package"
+			],
+			[
+				"sor",
+				"Sort Lines"
+			],
+			[
+				"so",
+				"Sort Lines"
+			],
+			[
+				"disable",
+				"Package Control: Disable Package"
+			],
+			[
+				"ena",
+				"Package Control: Enable Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"resource",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"Package Control: inst",
+				"Package Control: Install Package"
+			],
+			[
+				"incre",
+				"Increment Selection"
+			],
+			[
+				"in",
+				"Increment Selection"
+			],
+			[
+				"remov",
+				"Package Control: Remove Package"
+			],
+			[
+				"ince",
+				"Increment Selection"
+			],
+			[
+				"en",
+				"Package Control: Enable Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"sublimesyntax",
+				"RegexReplace -> SublimeSyntax"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"remove pa",
+				"Package Control: Remove Package"
+			],
+			[
+				"metasprite",
+				"RegexReplace -> NES Screen Tool metasprite OBJ data C code cleaner"
+			],
+			[
+				"subl",
+				"RegexReplace -> SublimeSyntax"
+			],
+			[
+				"packagedev",
+				"PackageDev: Convert to YAML and Rearrange Syntax Definition"
+			],
+			[
+				"sublim",
+				"RegexReplace -> SublimeSyntax"
+			],
+			[
+				"packagedev:",
+				"PackageDev: Convert to YAML and Rearrange Syntax Definition"
+			],
+			[
+				"yaml",
+				"PackageDev: Convert (YAML, JSON, PList) to…"
+			],
+			[
+				"package sati",
+				"Package Control: Satisfy Dependencies"
+			],
+			[
+				"upda",
+				"Package Control: Upgrade/Overwrite All Packages"
+			],
+			[
+				"packa",
+				"Package Control: Upgrade Package"
+			],
+			[
+				"mark",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"obj",
+				"RegexReplace -> NES Screen Tool metasprite OBJ data C code cleaner"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Enable Package"
+			],
+			[
+				"metas",
+				"RegexReplace -> NES Screen Tool metasprite OBJ data C code cleaner"
+			],
+			[
+				"package up",
+				"Package Control: Upgrade/Overwrite All Packages"
+			],
+			[
+				"package",
+				"Package Control: Upgrade Package"
+			],
+			[
+				"metasp",
+				"RegexReplace -> NES Screen Tool metasprite OBJ data C code cleaner"
+			],
+			[
+				"NES",
+				"NES Screen Tool metasprite OBJ c code cleaner"
+			],
+			[
+				"NES obj",
+				"NES Screen Tool metasprite OBJ c code cleaner"
+			],
+			[
+				"nes",
+				"NES Screen Tool metasprite OBJ c code cleaner"
+			],
+			[
+				"Nes",
+				"NES Screen Tool metasprite OBJ c code cleaner"
+			],
+			[
+				"pack ins",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Remove Package"
+			],
+			[
+				"htmlif",
+				"HTMLify: non-breaking spaces"
+			],
+			[
+				"html",
+				"HTMLify: ampersands"
+			],
+			[
+				"htmlify",
+				"HTMLify: non-breaking spaces"
+			],
+			[
+				"htm",
+				"HTMLify: non-breaking spaces"
+			],
+			[
+				"pkg",
+				"Package Control: Install Package"
+			],
+			[
+				"prv",
+				"PackageResourceViewer: View Package Resource"
+			],
+			[
+				"scope",
+				"Scope Hunter: Toggle Instant Scoper"
+			],
+			[
+				"instant ",
+				"Scope Hunter: Toggle Instant Scoper"
+			],
+			[
+				"pkgrv",
+				"PackageResourceViewer: View Package Resource"
+			],
+			[
+				"pkc inst",
+				"Package Control: Install Package"
+			],
+			[
+				"pkgdev",
+				"PackageDev: New Color Scheme"
+			],
+			[
+				"Package Control: ins",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: re",
+				"Package Control: Remove Package"
+			],
+			[
+				"pkgctrl inst",
+				"Package Control: Install Package"
+			],
+			[
+				"packageresou",
+				"PackageResourceViewer: Edit Package Resource"
+			],
+			[
+				"package instal",
+				"Package Control: Install Package"
+			],
+			[
+				"upp",
+				"Convert Case: Upper Case"
+			]
+		],
+		"width": 492.0
+	},
+	"console":
+	{
+		"height": 267.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/lexou/.config/sublime-text/Packages/LSP-lean"
+	],
+	"file_history":
+	[
+		"/home/lexou/.config/sublime-text/Packages/LSP-lean/plugin.py",
+		"/home/lexou/.config/sublime-text/Packages/User/LSP.sublime-settings",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/ℚₚ/ℚₚ{+}/Inversible.lean",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/generate-lean.py",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/lakefile.lean",
+		"/home/lexou/Downloads/logo/1757440977670.jpg~",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/doc/operators_naturals.lean",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/PropertyTable.xlsx",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/PropertyTable_Endorelations.tsv",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/PropertyTable_Operations-Binary.tsv",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/PropertyTable_Operations-N-ary.tsv",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/PropertyTable_Operations-Unary.tsv",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/.gitignore",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/.lake/packages/mathlib/Mathlib/Init/Algebra/Classes.lean",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/𝕊/𝕊{+}/Associative.lean",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/ℚ/ℚ{x}/Alternative.lean",
+		"/home/lexou/.config/sublime-text/Packages/Penrose/Penrose.sublime-settings",
+		"/home/lexou/.config/sublime-text/Packages/Penrose/Penrose-substance.sublime-syntax",
+		"/home/lexou/.config/sublime-text/Packages/Penrose/Penrose-style.sublime-syntax",
+		"/home/lexou/.config/sublime-text/Packages/Penrose/Penrose-domain.sublime-syntax",
+		"/home/lexou/.config/sublime-text/Packages/User/Lean.sublime-syntax",
+		"/home/lexou/.config/sublime-text/Packages/User/Lean.sublime-settings",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/.lake/packages/mathlib/Mathlib/Algebra/Group/Defs.lean",
+		"/home/lexou/.elan/toolchains/leanprover--lean4---v4.11.0-rc2/src/lean/Lean/Parser/Command.lean",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/.lake/packages/mathlib/Mathlib/Data/Rat/Init.lean",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/Project.lean",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/ℚ/ℚ{x}/Medial.lean",
+		"/home/lexou/Projects/Mathematics/Fractals/src/__main__.py",
+		"/home/lexou/Projects/Mathematics/Fractals/src/types.py",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/operators_naturals.lean",
+		"/home/lexou/Projects/Mathematics/Fractals/README.md",
+		"/home/lexou/Projects/Mathematics/Fractals/run.sh",
+		"/home/lexou/_config/xcompose/.XCompose",
+		"/home/lexou/Projects/Mathematics/Aluffi/Aluffi_Exercises.md",
+		"/home/lexou/_config/sublimetext/Lean.sublime-syntax",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/𝕆/𝕆{+}/Closed.lean",
+		"/home/lexou/.local/lib/python3.10/site-packages/kingdon/polynomial.py",
+		"/home/lexou/Projects/Mathematics/Fractals/src/config.py",
+		"/home/lexou/Projects/Mathematics/Fractals/src/logger.py",
+		"/home/lexou/Projects/Mathematics/Fractals/src/dwell_functions.py",
+		"/home/lexou/Projects/Mathematics/Fractals/src/grid_mariani_silver.py",
+		"/home/lexou/Projects/Mathematics/Fractals/src/grid_pointwise.py",
+		"/home/lexou/Projects/Mathematics/Fractals/src/numpy_image_io.py",
+		"/home/lexou/Projects/Mathematics/Fractals/src/utils_io.py",
+		"/home/lexou/Projects/Mathematics/Fractals/requirements.txt",
+		"/usr/lib/python3/dist-packages/numpy/__init__.pyi",
+		"/home/lexou/Projects/Mathematics/Fractals/src/main.py",
+		"/home/lexou/Projects/Mathematics/Fractals/src/utils.py",
+		"/home/lexou/.cache/sublime-text/Package Storage/LSP-pyright/23.7.0/language-server/node_modules/pyright/dist/typeshed-fallback/stdlib/itertools.pyi",
+		"/usr/lib/python3.10/typing.py",
+		"/home/lexou/Projects/Mathematics/Fractals/src/time.py",
+		"/home/lexou/Projects/Mathematics/Fractals/src/__init__.py",
+		"/home/lexou/.config/sublime-text/Packages/User/BetterMonokai.tmTheme",
+		"/home/lexou/Projects/C/libccc/src/float/float.c",
+		"/home/lexou/Projects/C/libccc/src/math/float/root.c",
+		"/home/lexou/Projects/C/libccc/src/math/float/rounding.c",
+		"/home/lexou/Projects/C/libccc/hdr/libccc/math/float.h",
+		"/home/lexou/Projects/C/libccc/src/math/float/op_pow.c",
+		"/home/lexou/Projects/C/libccc/src/math/float/log.c",
+		"/home/lexou/Projects/C/libccc/src/math/float/exp.c",
+		"/home/lexou/Downloads/maths/examples_lean/Prelude.lean",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/operators_boolean.md",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/𝔽ₚ/𝔽ₚ{gcd}/Left-cancellative.lean",
+		"/home/lexou/Projects/Mathematics/Aluffi/src/Lexicon/Lexicon_C01.tex",
+		"/home/lexou/Projects/Mathematics/Aluffi/src/Exercise_solutions/Chapter_01/C01_S05.tex",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/PropertyTable_Ops-Unary.tsv",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/PropertyTable_Ops-Binary.tsv",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/PropertyTable_Relations.tsv",
+		"/home/lexou/_config/sublimetext/Python.sublime-syntax",
+		"/home/lexou/.config/sublime-text/Packages/Markdown/Markdown.sublime-syntax",
+		"/home/lexou/_config/sublimetext/XCompose.sublime-syntax",
+		"/home/lexou/_config/sublimetext/Penrose-style.sublime-syntax",
+		"/home/lexou/_config/sublimetext/Penrose-domain.sublime-syntax",
+		"/home/lexou/Downloads/maths/penrose-examples/test.style",
+		"/home/lexou/Downloads/maths/penrose-examples/table.style",
+		"/home/lexou/Downloads/maths/penrose-examples/euclidean.style",
+		"/home/lexou/Downloads/maths/penrose-examples/arrayModels.style",
+		"/home/lexou/Downloads/test.style",
+		"/home/lexou/_config/sublimetext/Penrose-substance.sublime-syntax",
+		"/home/lexou/.config/sublime-text/Packages/User/Penrose-domain.sublime-syntax",
+		"/home/lexou/_config/sublimetext/Lex.sublime-syntax",
+		"/home/lexou/Downloads/maths/penrose-examples/geometry.domain",
+		"/home/lexou/Downloads/test.substance",
+		"/home/lexou/.config/sublime-text/Packages/User/Penrose-substance.sublime-syntax",
+		"/home/lexou/.config/sublime-text/Packages/User/Penrose-style.sublime-syntax",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/𝔽ₙ/𝔽ₙ{+}/Nilpotent.lean",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/𝔽ₚ/𝔽ₚ{+}/Left-unar.lean",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/proofs_Ops-Binary/ℕ/ℕ{lcm}/left-unar.lean",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/proofs_Ops-Binary/ℕ/ℕ{−}/anticommutative.lean",
+		"/home/lexou/Projects/Mathematics/Table_AlgebraProperties/𝔽ₚ/𝔽ₚ{+}/Right-anticommutative.lean",
+		"/home/lexou/Projects/Linguistics/unicode_dash.tsv",
+		"/home/lexou/Projects/Linguistics/unicode_dots.tsv",
+		"/home/lexou/Projects/Maths/Aluffi/Aluffi_Exercises.md",
+		"/home/lexou/Projects/Musicology/chords.py",
+		"/home/lexou/Projects/Musicology/scales.py",
+		"/home/lexou/Projects/TacticsMaker/core/setting.py",
+		"/home/lexou/Projects/TacticsMaker/util/tsv.py",
+		"/home/lexou/Projects/TacticsMaker/core/game.py",
+		"/home/lexou/Projects/TacticsMaker/view/tui/screen/game.py",
+		"/home/lexou/Projects/TacticsMaker/core/move.py",
+		"/home/lexou/Projects/TacticsMaker/view/tui/screen/menu_maps.py",
+		"/home/lexou/Projects/TacticsMaker/view/tui/screen/menu_game.py",
+		"/home/lexou/Projects/TacticsMaker/view/tui/screen/__init__.py",
+		"/home/lexou/Projects/TacticsMaker/view/tui/__main__.py",
+		"/home/lexou/Projects/TacticsMaker/game/todo.tsv",
+		"/home/lexou/Projects/TacticsMaker/CHANGELOG.md",
+		"/home/lexou/Projects/TacticsMaker/__test__.py",
+		"/home/lexou/Projects/TacticsMaker/game/Board/game/Chess/__init__.py",
+		"/home/lexou/Projects/TacticsMaker/game/Board/game/Shogi/__init__.py",
+		"/home/lexou/Projects/TacticsMaker/game/Board/code/move.py",
+		"/home/lexou/Projects/TacticsMaker/game/Board/code/map.py",
+		"/home/lexou/Projects/TacticsMaker/game/Board/code/rule.py",
+		"/home/lexou/Projects/TacticsMaker/view/tui/panel/__init__.py",
+		"/home/lexou/Projects/TacticsMaker/util/logger.py",
+		"/home/lexou/Projects/TacticsMaker/game/Board/game/template/maps/standard.map",
+		"/home/lexou/Projects/TacticsMaker/__main__.py",
+		"/home/lexou/.cache/sublime-text/Package Storage/LSP-pyright/20.9.0/language-server/node_modules/pyright/dist/typeshed-fallback/stdlib/builtins.pyi",
+		"/home/lexou/.cache/sublime-text/Package Storage/LSP-pyright/20.9.0/language-server/node_modules/pyright/dist/typeshed-fallback/stdlib/_curses.pyi",
+		"/home/lexou/Projects/TacticsMaker/view/tui/panel/menulist.py",
+		"/home/lexou/Projects/TacticsMaker/view/tui/panel/settings.py",
+		"/home/lexou/Projects/TacticsMaker/view/tui/input.py",
+		"/home/lexou/Projects/TacticsMaker/.legacy/cli/main.sh",
+		"/home/lexou/Projects/TacticsMaker/view/tui/data_gfx.py",
+		"/home/lexou/Projects/TacticsMaker/view/cli/__init__.py",
+		"/home/lexou/Projects/TacticsMaker/view/gui/__init__.py",
+		"/home/lexou/Projects/TacticsMaker/view/guii/__init__.py",
+		"/home/lexou/Projects/TacticsMaker/view/tui/__init__.py",
+		"/home/lexou/Projects/TacticsMaker/core/team.py"
+	],
+	"find":
+	{
+		"height": 50.0
+	},
+	"find_in_files":
+	{
+		"height": 307.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"Session",
+			"View"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "plugin.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8966,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8035,
+								8035
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": ".>:",
+									"selector": "source.c++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>:",
+									"selector": "source.c - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>: ",
+									"selector": "source.objc++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>: ",
+									"selector": "source.objc - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>: ",
+									"selector": "source.cuda-c++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".[\"'",
+									"selector": "meta.tag, source - comment - string.quoted.double.block - string.quoted.single.block - string.unquoted.heredoc",
+									"server": "LSP-pyright"
+								}
+							],
+							"copilot.completion._is_modified": false,
+							"copilot.completion._is_saving": false,
+							"copilot.completion.is_visible": false,
+							"copilot.completion.is_visible_panel_completions": false,
+							"copilot.completion.is_waiting_completion": false,
+							"copilot.completion.is_waiting_panel_completions": false,
+							"copilot.completion.original_layout": null,
+							"lsp_active": true,
+							"lsp_uri": "file:///home/lexou/.config/sublime-text/Packages/LSP-lean/plugin.py",
+							"show_definitions": false,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3437.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/opt/sublime_text/Lib/python38/sublime_plugin.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 83328,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								18918,
+								18922
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": ".>:",
+									"selector": "source.c++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>:",
+									"selector": "source.c - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>: ",
+									"selector": "source.objc++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>: ",
+									"selector": "source.objc - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>: ",
+									"selector": "source.cuda-c++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".[\"'",
+									"selector": "meta.tag, source - comment - string.quoted.double.block - string.quoted.single.block - string.unquoted.heredoc",
+									"server": "LSP-pyright"
+								}
+							],
+							"copilot.completion._is_modified": false,
+							"copilot.completion.is_visible": false,
+							"copilot.completion.is_visible_panel_completions": false,
+							"copilot.completion.is_waiting_completion": false,
+							"copilot.completion.is_waiting_panel_completions": false,
+							"copilot.completion.original_layout": null,
+							"lsp_active": true,
+							"lsp_uri": "file:///opt/sublime_text/Lib/python38/sublime_plugin.py",
+							"show_definitions": false,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 10560.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/home/lexou/Projects/Mathematics/Table_AlgebraProperties/ℤₚ/ℤₚ{+}/Associative.lean",
+					"selected": true,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1301,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1301,
+								1301
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": ".>:",
+									"selector": "source.c++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>:",
+									"selector": "source.c - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>: ",
+									"selector": "source.objc++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>: ",
+									"selector": "source.objc - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".>: ",
+									"selector": "source.cuda-c++ - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "meta.tag, source - comment - string.quoted.double.block - string.quoted.single.block - string.unquoted.heredoc",
+									"server": "lean"
+								},
+								{
+									"characters": ".",
+									"selector": "meta.tag, source - comment - string.quoted.double.block - string.quoted.single.block - string.unquoted.heredoc",
+									"server": "LSP-lean"
+								}
+							],
+							"copilot.completion._is_modified": false,
+							"copilot.completion._is_saving": false,
+							"copilot.completion.is_visible": false,
+							"copilot.completion.is_visible_panel_completions": false,
+							"copilot.completion.is_waiting_completion": false,
+							"copilot.completion.is_waiting_panel_completions": false,
+							"copilot.completion.original_layout": null,
+							"lsp_active": true,
+							"lsp_uri": "file:///home/lexou/Projects/Mathematics/Table_AlgebraProperties/%E2%84%A4%E2%82%9A/%E2%84%A4%E2%82%9A%7B%2B%7D/Associative.lean",
+							"show_definitions": false,
+							"syntax": "Packages/User/Lean.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 28.0
+	},
+	"input":
+	{
+		"height": 277.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.LSP Log Panel":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"output.SublimeLinter":
+	{
+		"height": 0.0
+	},
+	"output.diagnostics":
+	{
+		"height": 261.0,
+		"history":
+		[
+		]
+	},
+	"output.find_results":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"output.mdpopups":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"output.references":
+	{
+		"height": 209.0
+	},
+	"output.rename":
+	{
+		"height": 142.0
+	},
+	"pinned_build_system": "",
+	"project": "LSP-lean.sublime-project",
+	"replace":
+	{
+		"height": 52.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 625.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 475.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+		"copilot.conversation.code_block_index":
+		{
+		},
+		"copilot.conversation.conversation_entries":
+		[
+		],
+		"copilot.conversation.conversation_id": "",
+		"copilot.conversation.follow_up": "",
+		"copilot.conversation.is_visible": false,
+		"copilot.conversation.is_waiting_conversation": false,
+		"copilot.conversation.last_active_view_id": 285,
+		"copilot.conversation.original_layout": null,
+		"copilot.conversation.reference_block_state":
+		{
+		},
+		"copilot.conversation.suggested_title": "",
+		"copilot.copilotignore.patterns":
+		{
+		},
+		"lsp_show_inlay_hints": false
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 390.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

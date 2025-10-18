@@ -16,11 +16,11 @@
 								"id": "lsp-servers",
 								"children": [
 									{
-										"caption": "LSP-Lean",
+										"caption": "LSP-lean",
 										"command": "edit_settings",
 										"args": {
-											"base_file": "${packages}/LSP-Lean/LSP-Lean.sublime-settings",
-											"default": "// Settings in here override those in \"LSP-Lean/LSP-Lean.sublime-settings\"\n\n{\n\t$0\n}\n",
+											"base_file": "${packages}/LSP-lean/LSP-lean.sublime-settings",
+											"default": "// Settings in here override those in \"LSP-lean/LSP-lean.sublime-settings\"\n\n{\n\t$0\n}\n",
 										}
 									}
 								]

@@ -1,4 +1,4 @@
-# LSP-Lean
+# LSP-lean
 
 Lean support for Sublime's LSP plugin
 
@@ -6,7 +6,7 @@ Uses [Lean](https://lean-lang.org/) to provide completions, validation, and othe
 
 ## Installation
 
-1. Install [LSP](https://packagecontrol.io/packages/LSP) and [LSP-Lean](https://packagecontrol.io/Packages/LSP-Lean) from Package Control.
+1. Install [LSP](https://packagecontrol.io/packages/LSP) and [LSP-lean](https://packagecontrol.io/Packages/LSP-lean) from Package Control.
 2. Restart Sublime Text.
 
 > **Note**
@@ -16,5 +16,5 @@ Uses [Lean](https://lean-lang.org/) to provide completions, validation, and othe
 
 ### Configuration
 
-Open configuration file  by running `Preferences: LSP-Lean Settings` from Command Palette 
-or via Main Menu (`Preferences > Package Settings > LSP > Servers > LSP-Lean`).
+Open configuration file  by running `Preferences: LSP-lean Settings` from Command Palette 
+or via Main Menu (`Preferences > Package Settings > LSP > Servers > LSP-lean`).
