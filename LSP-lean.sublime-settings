@@ -1,6 +1,5 @@
 {
 	"env": {
-		// "JAVA_HOME": "C:\\Program Files\\Java\\jre1.8.0_251",
 		// "HTTP_PROXY_HOST": "",
 		// "HTTP_PROXY_PORT": "",
 		// "HTTP_PROXY_USERNAME": "",
@@ -36,10 +35,14 @@
 		// Display mode: Use mdpopups (true) or output panel (false)
 		// mdpopups shows a popup at the cursor position with rich formatting
 		// output panel shows goals in a bottom panel (better for pinning/keeping visible, allows for copy/paste)
-		"display_mdpopup": true,
+		"display_mdpopup": false,
 
 		// Display "No goals" message when cursor is at a position with no goals
 		// If false, the infoview will not update when there are no goals
-		"display_nogoals": false
+		"display_nogoals": false,
+
+		// The syntax coloring file to use in the output panel displau
+		// This setting has no effect if "display_mdpopup" is true
+		"display_syntaxfile": ""//"Packages/Lean/Lean.sublime-syntax"
 	}
 }

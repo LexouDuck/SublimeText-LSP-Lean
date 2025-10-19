@@ -24,6 +24,7 @@ SETTING_DISPLAY_CURRENT_GOALS = "display_current_goals"
 SETTING_DISPLAY_EXPECTED_TYPE = "display_expected_type"
 SETTING_DISPLAY_MDPOPUP = "display_mdpopup"
 SETTING_DISPLAY_NOGOALS = "display_nogoals"
+SETTING_DISPLAY_SYNTAXFILE = "display_syntaxfile"
 
 def get_setting(key: str, default: Any = None) -> Any:
     """
@@ -221,13 +222,14 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
         if not window:
             return
         display_nogoals = get_setting(SETTING_DISPLAY_NOGOALS, False)
+        display_syntaxfile = get_setting(SETTING_DISPLAY_SYNTAXFILE, "")
         # Create or get the infoview panel
         panel_name = "lean_infoview"
         panel = window.find_output_panel(panel_name)
         if not panel:
             panel = window.create_output_panel(panel_name)
             # Set syntax highlighting (optional)
-            panel.set_syntax_file("Packages/Text/Plain text.tmLanguage")
+            panel.set_syntax_file(display_syntaxfile)
         # Format the goal and expected type for display
         content_parts: List[str] = []
         # Add expected type if available
@@ -260,7 +262,7 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
             return ""
         output: List[str] = []
         output.append("Expected Type")
-        output.append("=" * 40)
+        output.append("-" * 40)
         output.append(term)
         return "\n".join(output)
 
