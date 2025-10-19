@@ -24,6 +24,15 @@
 	},
 
 	"settings": {
+
+		// Display current goal information (the ongoing goal at cursor)
+		// This shows the progress of the proof at the current cursor position
+		"display_current_goals": true,
+
+		// Display expected type information (the type of the subterm at cursor)
+		// This shows what type Lean expects at the current cursor position
+		"display_expected_type": true,
+
 		// Display mode: Use mdpopups (true) or output panel (false)
 		// mdpopups shows a popup at the cursor position with rich formatting
 		// output panel shows goals in a bottom panel (better for pinning/keeping visible, allows for copy/paste)
