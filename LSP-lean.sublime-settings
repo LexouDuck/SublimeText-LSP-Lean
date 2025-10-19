@@ -35,7 +35,7 @@
 		// Display mode: Use mdpopups (true) or output panel (false)
 		// mdpopups shows a popup at the cursor position with rich formatting
 		// output panel shows goals in a bottom panel (better for pinning/keeping visible, allows for copy/paste)
-		"display_mdpopup": false,
+		"display_mdpopup": true,
 
 		// Display "No goals" message when cursor is at a position with no goals
 		// If false, the infoview will not update when there are no goals
@@ -43,6 +43,6 @@
 
 		// The syntax coloring file to use in the output panel displau
 		// This setting has no effect if "display_mdpopup" is true
-		"display_syntaxfile": ""//"Packages/Lean/Lean.sublime-syntax"
+		"display_syntaxfile": "Packages/Lean/Lean.sublime-syntax"
 	}
 }

@@ -181,6 +181,7 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
         # Display combined view
         self._display_combined_info(view)
 
+
     def _display_combined_info(self, view: sublime.View):
         """
         Display both goals and expected type together
@@ -213,6 +214,7 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
             if window:
                 self.display_goal_panel(window, goal_data, term_goal_data)
 
+
     def display_goal_panel(self, window: sublime.Window,
         goal_data: Optional[GoalData] = None,
         term_goal_data: Optional[TermGoalData] = None):
@@ -232,17 +234,18 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
             panel.set_syntax_file(display_syntaxfile)
         # Format the goal and expected type for display
         content_parts: List[str] = []
-        # Add expected type if available
-        if term_goal_data:
-            type_content = self.format_type(term_goal_data)
-            if type_content:
-                content_parts.append(type_content)
-                content_parts.append("")  # Blank line separator
         # Add goal state
         if goal_data or display_nogoals:
             goal_content = self.format_goal(goal_data)
             if goal_content:
                 content_parts.append(goal_content)
+                content_parts.append("")
+        # Add expected type if available
+        if term_goal_data:
+            type_content = self.format_type(term_goal_data)
+            if type_content:
+                content_parts.append(type_content)
+                content_parts.append("")
         content = "\n".join(content_parts)
         # Clear and update panel
         panel.run_command('select_all')
@@ -250,21 +253,6 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
         panel.run_command('append', {'characters': content})
         # Show the panel
         window.run_command("show_panel", {"panel": f"output.{panel_name}"})
-
-    def format_type(self, term_goal_data: Optional[TermGoalData]) -> str:
-        """
-        Format expected type data as plain text
-        """
-        if not term_goal_data:
-            return ""
-        term = term_goal_data.get('goal')
-        if not term:
-            return ""
-        output: List[str] = []
-        output.append("Expected Type")
-        output.append("-" * 40)
-        output.append(term)
-        return "\n".join(output)
 
     def format_goal(self, goal_data: Optional[GoalData]) -> str:
         """
@@ -281,22 +269,37 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
         for i, goal in enumerate(goals):
             output.append(f"Goal {i + 1}:")
             output.append("-" * 40)
-            if isinstance(goal, str):
+            if isinstance(goal, str): # Simple string goal
                 output.append(goal)
                 output.append("")
-            # Show hypotheses
-            elif ('hypotheses' in goal):
+            elif isinstance(goal, dict): # Structured goal with hypotheses and conclusion
+                # Show hypotheses
                 hypotheses = goal.get('hypotheses', [])
                 if hypotheses:
                     output.append("\nHypotheses:")
                     for h in hypotheses:
                         output.append(f"  {h}")
-            # Show goal
-            elif ('conclusion' in goal):
+                # Show goal
                 conclusion = goal.get('conclusion', goal.get('type', 'unknown'))
                 output.append(f"\n⊢ {conclusion}")
                 output.append("")
         return "\n".join(output)
+
+    def format_type(self, term_goal_data: Optional[TermGoalData]) -> str:
+        """
+        Format expected type data as plain text
+        """
+        if not term_goal_data:
+            return ""
+        term = term_goal_data.get('goal')
+        if not term:
+            return ""
+        output: List[str] = []
+        output.append("Expected Type")
+        output.append("-" * 40)
+        output.append(term)
+        return "\n".join(output)
+
 
     def display_goal_popup(self, view: sublime.View,
         goal_data: Optional[GoalData] = None,
@@ -314,7 +317,7 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
         }
         .lean-infoview h3 {
             margin-top: 0.5rem;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.5rem;
             color: var(--bluish);
             border-bottom: 1px solid var(--bluish);
         }
@@ -388,34 +391,18 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
 
         output: List[str] = []
         output.append('### Lean Infoview\n')
-        # Add expected type section if available
-        if term_goal_data:
-            type_md = self.format_type_markdown(term_goal_data)
-            if type_md:
-                output.append(type_md)
-                output.append('\n')
         # Add goals section if available
         if goal_data or display_nogoals:
             goals_md = self.format_goal_markdown(goal_data)
             if goals_md:
                 output.append(goals_md)
                 output.append('\n')
-        return ''.join(output)
-
-    def format_type_markdown(self, term_goal_data: Optional[TermGoalData]) -> str:
-        """
-        Format expected type as markdown
-        """
-        if not term_goal_data:
-            return ""
-        term = term_goal_data.get('goal')
-        if not term:
-            return ""
-        output: List[str] = []
-        output.append('<div class="expected-type-header">Expected Type:</div>\n')
-        # Escape HTML
-        if isinstance(term, str):
-            output.append(f'```lean\n{term}\n```\n')
+        # Add expected type section if available
+        if term_goal_data:
+            type_md = self.format_type_markdown(term_goal_data)
+            if type_md:
+                output.append(type_md)
+                output.append('\n')
         return ''.join(output)
 
     def format_goal_markdown(self, goal_data: Optional[GoalData]) -> str:
@@ -432,11 +419,9 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
         output: List[str] = []
         for i, goal in enumerate(goals):
             output.append(f'<div class="goal-header">Goal {i + 1}:</div>\n')
-            if isinstance(goal, str):
-                # Simple string goal
+            if isinstance(goal, str): # Simple string goal
                 output.append(f'```lean\n{goal}\n```\n')
-            elif isinstance(goal, dict):
-                # Structured goal with hypotheses and conclusion
+            elif isinstance(goal, dict): # Structured goal with hypotheses and conclusion
                 hypotheses = goal.get('hypotheses', [])
                 if hypotheses:
                     output.append('<div class="hypotheses">\n')
@@ -452,6 +437,22 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
                 conclusion_escaped = self._escape_html(conclusion)
                 output.append(f'<div class="conclusion">`{conclusion_escaped}`</div>\n')
             output.append('\n')
+        return ''.join(output)
+
+    def format_type_markdown(self, term_goal_data: Optional[TermGoalData]) -> str:
+        """
+        Format expected type as markdown
+        """
+        if not term_goal_data:
+            return ""
+        term = term_goal_data.get('goal')
+        if not term:
+            return ""
+        output: List[str] = []
+        output.append('<div class="expected-type-header">Expected Type:</div>\n')
+        # Escape HTML
+        if isinstance(term, str):
+            output.append(f'```lean\n{term}\n```\n')
         return ''.join(output)
 
     def _escape_html(self, text: str) -> str:
