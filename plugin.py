@@ -72,17 +72,17 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
             return
         # Check if session is ready
         if not session.state == ClientStates.READY:
-            print(f"Lean4: Session not ready yet")
+            print(f"Lean: Session not ready yet")
             return
         # Lean requires saved files to process
         if view.is_dirty():
-            print("Lean4: File has unsaved changes, save first")
+            print("Lean: File has unsaved changes, save first")
             #view.run_command('save') # Optionally auto-save
             return
         # Get file path and convert to URI
         file_path = view.file_name()
         if not file_path:
-            print("Lean4: No file path")
+            print("Lean: No file path")
             return
         # Convert to proper file:// URI
         import urllib.parse
@@ -104,7 +104,7 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
                 'character': col
             }
         }
-        print(f"Lean4: Requesting goal at {row}:{col} for {file_uri}")
+        print(f"Lean: Requesting goal at {row}:{col} for {file_uri}")
         # Send custom Lean request for plain goal
         # Lean 4 uses custom LSP extensions
         request:Request[GoalData] = Request("$/lean/plainGoal", params)
@@ -250,7 +250,7 @@ class LeanGoalCommand(LspTextCommand):
         point = sel[0].begin()
         row, col = view.rowcol(point)
         # Get session
-        session = self.session_by_name('lean4')
+        session = self.session_by_name('lean')
         if not session:
             sublime.status_message("Lean: No active session")
             return
@@ -292,258 +292,3 @@ class LeanGoalCommand(LspTextCommand):
     def handle_error(self, error:Error):
         """Handle error response"""
         sublime.error_message(f"Lean Error: {error}")
-
-
-
-# import os
-# import weakref
-# import functools
-
-# import sublime
-# import sublime_plugin
-# from LSP.plugin import Session, AbstractPlugin, ClientConfig,register_plugin, unregister_plugin
-# from LSP.plugin.core.protocol import Request, Response
-
-
-
-# class LeanClientConfig(ClientConfig):
-#     def __init__(self):
-#         super().__init__(
-#             name="lean4",
-#             command=["lean", "--server"],
-#             selector="source.lean"
-#         )
-
-
-# def plugin_loaded() -> None:
-#     register_plugin(Lean)
-
-# def plugin_unloaded() -> None:
-#     unregister_plugin(Lean)
-
-# class Lean(AbstractPlugin):
-
-#     @classmethod
-#     def name(cls) -> str:
-#         return "LSP-{}".format(cls.__name__.lower())
-
-#     @classmethod
-#     def basedir(cls) -> str:
-#         return os.path.join(cls.storage_path(), cls.name())
-
-#     @classmethod
-#     def version_file(cls) -> str:
-#         return os.path.join(cls.basedir(), "VERSION")
-
-#     @classmethod
-#     def platform_arch(cls) -> str:
-#         return {
-#             "linux_x64":    "linux-x64.tar.gz",
-#             "osx_arm64":    "darwin-arm64.tar.gz",
-#             "osx_x64":      "darwin-x64.tar.gz",
-#             "windows_x32":  "win32-ia32.zip",
-#             "windows_x64":  "win32-x64.zip",
-#         }[sublime.platform() + "_" + sublime.arch()]
-
-#     @classmethod
-#     def needs_update_or_installation(cls) -> bool:
-#         settings, _ = cls.configuration()
-#         server_version = str(settings.get("server_version"))
-#         try:
-#             with open(cls.version_file(), "r") as fp:
-#                 return server_version != fp.read().strip()
-#         except OSError:
-#             return True
-
-#     @classmethod
-#     def install_or_update(cls) -> None:
-#         pass
-
-#     @classmethod
-#     def configuration(cls) -> Tuple[sublime.Settings, str]:
-#         base_name = "{}.sublime-settings".format(cls.name())
-#         file_path = "Packages/{}/{}".format(cls.name(), base_name)
-#         return sublime.load_settings(base_name), file_path
-
-#     @classmethod
-#     def additional_variables(cls) -> Optional[Dict[str, str]]:
-#         settings, _ = cls.configuration()
-#         return {
-#         }
-
-#     def __init__(self, weaksession: 'weakref.ref[Session]') -> None:
-#         super().__init__(weaksession)
-#         self._settings_change_count = 0
-#         self._queued_changes:List[Dict[str, Any]] = []
-#         self.infoview_panel = None
-#         self.current_state = None
-
-#     def m___command(self, params: Any) -> None:
-#         """Handles the $/command notification."""
-#         if not isinstance(params, dict):
-#             return print("{}: cannot handle command: expected dict, got {}".format(self.name(), type(params)))
-#         command = params["command"]
-#         if command == "Lean.config":
-#             self._queued_changes.extend(params["data"])
-#             self._settings_change_count += 1
-#             current_count = self._settings_change_count
-#             sublime.set_timeout_async(functools.partial(self._handle_config_commands_async, current_count), 200)
-#         else:
-#             sublime.error_message("LSP-lean: unrecognized command: {}".format(command))
-
-#     def _handle_config_commands_async(self, settings_change_count: int) -> None:
-#         if self._settings_change_count != settings_change_count:
-#             return
-#         commands, self._queued_changes = self._queued_changes, []
-#         session = self.weaksession()
-#         if not session:
-#             return
-#         base, settings = self._get_server_settings(session.window)
-#         if base is None or settings is None:
-#             return
-#         for command in commands:
-#             action = command["action"]
-#             key = command["key"]
-#             value = command["value"]
-#             if action == "set":
-#                 settings[key] = value
-#             elif action == "add":
-#                 values = settings.get(key)
-#                 if not isinstance(values, list):
-#                     values = []
-#                 values.append(value)
-#                 settings[key] = values
-#             else:
-#                 print("LSP-lean: unrecognized action:", action)
-#         session.window.set_project_data(base)
-#         if not session.window.project_file_name():
-#             sublime.message_dialog(" ".join((
-#                 "The server settings have been applied in the Window,",
-#                 "but this Window is not backed by a .sublime-project.",
-#                 "Click on Project > Save Project As... to store the settings."
-#             )))
-
-#     def _get_server_settings(self, window: sublime.Window) -> Tuple[Optional[Dict[str, Any]], Optional[Dict[str, Any]]]:
-#         data = window.project_data()
-#         if not isinstance(data, dict):
-#             return None, None
-#         if "settings" not in data:
-#             data["settings"] = {}
-#         if "LSP" not in data["settings"]:
-#             data["settings"]["LSP"] = {}
-#         if "LSP-lean" not in data["settings"]["LSP"]:
-#             data["settings"]["LSP"]["LSP-lean"] = {}
-#         if "settings" not in data["settings"]["LSP"]["LSP-lean"]:
-#             data["settings"]["LSP"]["LSP-lean"]["settings"] = {}
-#         return data, data["settings"]["LSP"]["LSP-lean"]["settings"]
-
-
-
-#     def create_infoview_panel(self, window):
-#         self.infoview_panel = window.create_output_panel("lean_infoview")
-#         self.infoview_panel.settings().set("result_file_regex", "^(.+):([0-9]+):([0-9]+)")
-#         self.infoview_panel.assign_syntax('Packages/Lean/Lean.sublime-syntax')
-
-#     def update_infoview(self, content):
-#         if self.infoview_panel:
-#             self.infoview_panel.run_command('append', {'characters': content})
-
-#     def handle_goal_state_response(self, response):
-#         goals = response.get('goals', [])
-#         html = self.format_goals(goals)
-#         self.update_infoview(html)
-
-#     def format_goals(self, goals):
-#         if not goals:
-#             return "<div>No goals</div>"
-
-#         result = []
-#         for i, goal in enumerate(goals):
-#             result.append(f"""
-#             <div class="goal">
-#                 <div class="goal-number">Goal {i+1}</div>
-#                 <div class="hypotheses">
-#                     {self.format_hypotheses(goal.hypotheses)}
-#                 </div>
-#                 <div class="turnstile">⊢</div>
-#                 <div class="conclusion">{goal.conclusion}</div>
-#             </div>
-#             """)
-#         return ''.join(result)
-
-#     def on_diagnostics(self, diagnostics):
-#         for diag in diagnostics:
-#             severity = diag.get('severity')
-#             message = diag.get('message')
-#             range_info = diag.get('range')
-#             # Add to messages panel
-#             self.messages.append({
-#                 'severity': severity,
-#                 'message': message,
-#                 'range': range_info
-#             })
-#         self.update_messages_panel()
-
-
-
-
-# def render_tactic_state(state):
-#     html = f"""
-#     <div class="tactic-state">
-#         <div class="hypotheses">
-#             {render_hypotheses(state.hypotheses)}
-#         </div>
-#         <div class="turnstile">⊢</div>
-#         <div class="goals">
-#             {render_goals(state.goals)}
-#         </div>
-#     </div>
-#     """
-#     return html
-
-
-
-# class ShowLeanInfoviewCommand(sublime_plugin.WindowCommand):
-#     def run(self):
-#         window = self.window
-#         plugin = Lean(window)
-#         plugin.create_infoview_panel(window)
-#         window.run_command("show_panel", {"panel": "output.lean_infoview"})
-
-# class LeanInfoviewCommand(sublime_plugin.TextCommand):
-#     def run(self, edit):
-#         # Create phantom or output panel with minihtml
-#         content = self.generate_infoview_html()
-#         self.view.show_popup(
-#             content,
-#             flags=sublime.HIDE_ON_MOUSE_MOVE_AWAY,
-#             max_width=800,
-#             max_height=600
-#         )
-
-# class LeanInfoviewListener(sublime_plugin.EventListener):
-
-#     def on_selection_modified_async(self, view:sublime.View):
-#         if view.match_selector(0, 'source.lean'):
-#             pos = view.sel()[0].begin()
-#             row, col = view.rowcol(pos)
-#             # Request goal state at position
-#             self.request_goal_state(view, row, col)
-
-#     def request_goal_state(self, view:sublime.View, row:int, col:int):
-#         # Request goal information from LSP
-#         session = Session.for_view(view, 'lean4')
-#         if session:
-#             params = {
-#                 'textDocument': {'uri': view.file_name()},
-#                 'position': {'line': row, 'character': col}
-#             }
-#             session.send_request(
-#                 Request("lean/plainGoal", params),
-#                 self.on_goal_response
-#             )
-
-#     def on_goal_response(self, response):
-#         if response:
-#             html = self.format_goal_html(response)
-#             self.update_infoview(html)
