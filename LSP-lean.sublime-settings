@@ -24,5 +24,13 @@
 	},
 
 	"settings": {
+		// Display mode: Use mdpopups (true) or output panel (false)
+		// mdpopups shows a popup at the cursor position with rich formatting
+		// output panel shows goals in a bottom panel (better for pinning/keeping visible, allows for copy/paste)
+		"display_mdpopup": true,
+
+		// Display "No goals" message when cursor is at a position with no goals
+		// If false, the infoview will not update when there are no goals
+		"display_nogoals": false
 	}
 }
