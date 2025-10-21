@@ -21,11 +21,11 @@
 
 	"settings": {
 
-		// Display current goal information (the ongoing goal at cursor)
+		// Whether or not to display current goal information (the ongoing goal at cursor)
 		// This shows the progress of the proof at the current cursor position
 		"display_current_goals": true,
 
-		// Display expected type information (the type of the subterm at cursor)
+		// Whether or not to display expected type information (the type of the subterm at cursor)
 		// This shows what type Lean expects at the current cursor position
 		"display_expected_type": true,
 
@@ -35,10 +35,10 @@
 		"display_mdpopup": true,
 
 		// Display "No goals" message when cursor is at a position with no goals
-		// If false, the infoview will not update when there are no goals
+		// If false, the infoview will not be displauyed when there are no goals
 		"display_nogoals": false,
 
-		// The syntax coloring file to use in the output panel displau
+		// The path of the syntax coloring file to use in the infoview display
 		// This setting has no effect if "display_mdpopup" is true
 		"display_syntaxfile": "Packages/Lean/Lean.sublime-syntax"
 	}

@@ -18,6 +18,36 @@
           "definitions": {
             "PluginConfig": {
               "properties": {
+                "settings": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "display_current_goals": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Whether or not to display current goal information (the ongoing goal at cursor)",
+                    },
+                    "display_expected_type": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Whether or not to display expected type information (the type of the subterm at cursor)",
+                    },
+                    "display_mdpopup": {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Display mode: Use mdpopups (true) or output panel (false)",
+                    },
+                    "display_nogoals": {
+                      "type": "boolean",
+                      "default": false,
+                      "description": "Display \"No goals\" message when cursor is at a position with no goals",
+                    },
+                    "display_syntaxfile": {
+                      "type": "boolean",
+                      "default": "Packages/Lean/Lean.sublime-syntax",
+                      "description": "The path of the syntax coloring file to use in the infoview display",
+                    }
+                  }
+                }
               }
             }
           }
