@@ -7,7 +7,7 @@ import urllib.parse
 import sublime
 import sublime_plugin
 import mdpopups
-from LSP.plugin import LspTextCommand, Request, Session
+from LSP.plugin import LspTextCommand, Request, Session, filename_to_uri
 from LSP.plugin.core.types import ClientStates
 from LSP.plugin.core.typing import Optional, Any, Dict, List, Tuple
 from LSP.plugin.core.protocol import Error, Response
@@ -80,11 +80,6 @@ class Lean(AbstractPlugin):
         base_name = "{}.sublime-settings".format(cls.name())
         file_path = "Packages/{}/{}".format(cls.name(), base_name)
         return sublime.load_settings(base_name), file_path
-
-    @classmethod
-    def additional_variables(cls) -> Optional[Dict[str, str]]:
-        settings, _ = cls.configuration()
-        return {}
 
     def __init__(self, weaksession: 'weakref.ref[Session]') -> None:
         super().__init__(weaksession)
@@ -215,20 +210,13 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
             print("Lean: File has unsaved changes, save first")
             #view.run_command('save') # Optionally auto-save
             return
-        # Get file path and convert to URI
-        file_path = view.file_name()
-        if not file_path:
+        if not view.file_name():
             print("Lean: No file path")
             return
-        # Convert to proper file:// URI
-        # Normalize path and convert to URI
-        file_path = os.path.abspath(file_path)
-        file_uri = urllib.parse.urljoin('file:', urllib.parse.quote(file_path.replace('\\', '/')))
-
         # Prepare LSP request parameters
         params = {
             'textDocument': {
-                'uri': file_uri
+                'uri': filename_to_uri(os.path.abspath(view.file_name()))
             },
             'position': {
                 'line': row,
@@ -649,10 +637,13 @@ class LeanGoalCommand(LspTextCommand):
         if not session:
             sublime.status_message("Lean: No active session")
             return
+        if not view.file_name():
+            print("Lean: No file path")
+            return
         # Prepare request
         params = {
             'textDocument': {
-                'uri': f"file://{view.file_name()}" if view.file_name() else ''
+                'uri': filename_to_uri(os.path.abspath(view.file_name())) if view.file_name() else ''
             },
             'position': {
                 'line': row,
