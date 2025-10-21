@@ -7,7 +7,7 @@ import urllib.parse
 import sublime
 import sublime_plugin
 import mdpopups
-from LSP.plugin import LspTextCommand, Request, Session, filename_to_uri
+from LSP.plugin import LspTextCommand, LspWindowCommand, Request, Session, filename_to_uri
 from LSP.plugin.core.types import ClientStates
 from LSP.plugin.core.typing import Optional, Any, Dict, List, Tuple
 from LSP.plugin.core.protocol import Error, Response
@@ -566,7 +566,7 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
 
 
 
-class ShowLeanInfoviewCommand(sublime_plugin.WindowCommand):
+class ShowLeanInfoviewCommand(LspWindowCommand):
     """
     Command to show the Lean infoview (panel or popup depends on settings)
     """
@@ -598,7 +598,7 @@ class ShowLeanInfoviewCommand(sublime_plugin.WindowCommand):
 
 
 
-class HideLeanInfoviewCommand(sublime_plugin.WindowCommand):
+class HideLeanInfoviewCommand(LspWindowCommand):
     """
     Command to hide the Lean infoview popup
     """
