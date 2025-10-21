@@ -16,13 +16,17 @@ from LSP.plugin.core.sessions import AbstractPlugin, register_plugin, unregister
 
 
 
+PACKAGE_NAME = "LSP-lean"
+
+
+
 GoalData = Any
 TermGoalData = Any
 
 
 
 # Settings keys
-SETTINGS_FILE = "LSP-lean.sublime-settings"
+SETTINGS_FILE = PACKAGE_NAME + ".sublime-settings"
 SETTING_DISPLAY_CURRENT_GOALS = "display_current_goals"
 SETTING_DISPLAY_EXPECTED_TYPE = "display_expected_type"
 SETTING_DISPLAY_MDPOPUP = "display_mdpopup"
@@ -109,7 +113,7 @@ class Lean(AbstractPlugin):
                 values.append(value)
                 settings[key] = values
             else:
-                print("LSP-lean: unrecognized action:", action)
+                print(f"{PACKAGE_NAME}: unrecognized action:", action)
         session.window.set_project_data(base)
         if not session.window.project_file_name():
             sublime.message_dialog(" ".join((
@@ -126,11 +130,11 @@ class Lean(AbstractPlugin):
             data["settings"] = {}
         if "LSP" not in data["settings"]:
             data["settings"]["LSP"] = {}
-        if "LSP-lean" not in data["settings"]["LSP"]:
-            data["settings"]["LSP"]["LSP-lean"] = {}
-        if "settings" not in data["settings"]["LSP"]["LSP-lean"]:
-            data["settings"]["LSP"]["LSP-lean"]["settings"] = {}
-        return data, data["settings"]["LSP"]["LSP-lean"]["settings"]
+        if PACKAGE_NAME not in data["settings"]["LSP"]:
+            data["settings"]["LSP"][PACKAGE_NAME] = {}
+        if "settings" not in data["settings"]["LSP"][PACKAGE_NAME]:
+            data["settings"]["LSP"][PACKAGE_NAME]["settings"] = {}
+        return data, data["settings"]["LSP"][PACKAGE_NAME]["settings"]
 
 
 
@@ -199,19 +203,19 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
         # Get the session for this view
         session = self.get_lean_session(view)
         if not session:
-            print("Lean: No active session found")
+            print(f"{PACKAGE_NAME}: No active session found")
             return
         # Check if session is ready
         if not session.state == ClientStates.READY:
-            print(f"Lean: Session not ready yet")
+            print(f"{PACKAGE_NAME}: Session not ready yet")
             return
         # Lean requires saved files to process
         if view.is_dirty():
-            print("Lean: File has unsaved changes, save first")
+            print(f"{PACKAGE_NAME}: File has unsaved changes, save first")
             #view.run_command('save') # Optionally auto-save
             return
         if not view.file_name():
-            print("Lean: No file path")
+            print(f"{PACKAGE_NAME}: No file path")
             return
         # Prepare LSP request parameters
         params = {
@@ -225,12 +229,12 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
         }
         # Send custom Lean LSP request for plain goal
         if get_setting(SETTING_DISPLAY_CURRENT_GOALS, True):
-            #print(f"Lean: Requesting goal at {row}:{col} for {file_uri}")
+            #print(f"{PACKAGE_NAME}: Requesting goal at {row}:{col} for {file_uri}")
             request: Request[GoalData] = Request("$/lean/plainGoal", params)
             session.send_request(request, lambda response: self.on_goal_response(view, response))
         # Also request expected type if enabled
         if get_setting(SETTING_DISPLAY_EXPECTED_TYPE, True):
-            #print(f"Lean: Requesting term at {row}:{col} for {file_uri}")
+            #print(f"{PACKAGE_NAME}: Requesting term at {row}:{col} for {file_uri}")
             term_goal_request: Request[TermGoalData] = Request("$/lean/plainTermGoal", params)
             session.send_request(term_goal_request, lambda response: self.on_term_goal_response(view, response))
 
@@ -256,7 +260,7 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
         Handle goal state response from Lean server
         """
         if isinstance(response, dict) and 'error' in response:
-            print(f"Lean: Error getting goal: {response['error']}")
+            print(f"{PACKAGE_NAME}: Error getting goal: {response['error']}")
             return
         # Store the goal response for combined display
         if not hasattr(self, '_goal_data'):
@@ -271,7 +275,7 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
         Handle expected type (term goal) response from Lean server
         """
         if isinstance(response, dict) and 'error' in response:
-            print(f"Lean: Error getting expected type: {response['error']}")
+            print(f"{PACKAGE_NAME}: Error getting expected type: {response['error']}")
             return
         # Store the term goal response for combined display
         if not hasattr(self, '_term_goal_data'):
@@ -619,6 +623,8 @@ class LeanGoalCommand(LspTextCommand):
     Command to explicitly request goal at cursor position
     Usage: `view.run_command('lean_goal')`
     """
+    capability = 'textDocumentSync'
+    session_name = PACKAGE_NAME
 
     def is_enabled(self, event: Optional[Dict] = None, point: Optional[int] = None) -> bool:
         # Only enable for Lean files with an active session
@@ -638,7 +644,7 @@ class LeanGoalCommand(LspTextCommand):
             sublime.status_message("Lean: No active session")
             return
         if not view.file_name():
-            print("Lean: No file path")
+            print(f"{PACKAGE_NAME}: No file path")
             return
         # Prepare request
         params = {
