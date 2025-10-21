@@ -626,10 +626,6 @@ class LeanGoalCommand(LspTextCommand):
     capability = 'textDocumentSync'
     session_name = PACKAGE_NAME
 
-    def is_enabled(self, event: Optional[Dict] = None, point: Optional[int] = None) -> bool:
-        # Only enable for Lean files with an active session
-        return self.has_client_with_capability('textDocumentSync')
-
     def run(self, edit: sublime.Edit, event: Optional[Dict] = None):
         view = self.view
         # Get cursor position
