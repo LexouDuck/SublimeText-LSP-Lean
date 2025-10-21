@@ -6,5 +6,17 @@
 			"base_file": "${packages}/LSP-lean/LSP-lean.sublime-settings",
 			"default": "// Settings in here override those in \"LSP-lean/LSP-lean.sublime-settings\"\n\n{\n\t$0\n}\n"
 		}
-	}
+	},
+    {
+        "caption": "LSP-lean: Show Lean Infoview Panel",
+        "command": "show_lean_infoview",
+    },
+    {
+        "caption": "LSP-lean: Hide Lean Infoview Panel",
+        "command": "hide_lean_infoview",
+    },
+    {
+        "caption": "LSP-lean: Display goal at cursor position",
+        "command": "lean_goal",
+    },
 ]
