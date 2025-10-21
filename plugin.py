@@ -33,12 +33,11 @@ SETTING_DISPLAY_MDPOPUP = "display_mdpopup"
 SETTING_DISPLAY_NOGOALS = "display_nogoals"
 SETTING_DISPLAY_SYNTAXFILE = "display_syntaxfile"
 
-def get_setting(key: str, default: Any = None) -> Any:
+def get_setting(session: Session, key: str, default: Any = None) -> Any:
     """
     Get a setting value from the LSP-lean settings file
     """
-    settings = sublime.load_settings(SETTINGS_FILE)
-    return settings.get("settings", {}).get(key, default)
+    return session.config.settings.get(key) or default
 
 
 
@@ -151,6 +150,8 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
     Listen to cursor movements and update infoview
     """
 
+    session: Session
+
     @classmethod
     def is_applicable(cls, settings: sublime.Settings) -> bool:
         # Only activate for Lean files
@@ -205,8 +206,9 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
         if not session:
             print(f"{PACKAGE_NAME}: No active session found")
             return
+        self.session = session
         # Check if session is ready
-        if not session.state == ClientStates.READY:
+        if not self.session.state == ClientStates.READY:
             print(f"{PACKAGE_NAME}: Session not ready yet")
             return
         # Lean requires saved files to process
@@ -220,7 +222,7 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
         # Prepare LSP request parameters
         params = {
             'textDocument': {
-                'uri': filename_to_uri(os.path.abspath(view.file_name()))
+                'uri': filename_to_uri(os.path.abspath(view.file_name() or ""))
             },
             'position': {
                 'line': row,
@@ -228,12 +230,12 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
             }
         }
         # Send custom Lean LSP request for plain goal
-        if get_setting(SETTING_DISPLAY_CURRENT_GOALS, True):
+        if get_setting(self.session, SETTING_DISPLAY_CURRENT_GOALS, True):
             #print(f"{PACKAGE_NAME}: Requesting goal at {row}:{col} for {file_uri}")
             request: Request[GoalData] = Request("$/lean/plainGoal", params)
             session.send_request(request, lambda response: self.on_goal_response(view, response))
         # Also request expected type if enabled
-        if get_setting(SETTING_DISPLAY_EXPECTED_TYPE, True):
+        if get_setting(self.session, SETTING_DISPLAY_EXPECTED_TYPE, True):
             #print(f"{PACKAGE_NAME}: Requesting term at {row}:{col} for {file_uri}")
             term_goal_request: Request[TermGoalData] = Request("$/lean/plainTermGoal", params)
             session.send_request(term_goal_request, lambda response: self.on_term_goal_response(view, response))
@@ -294,10 +296,10 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
         # Get stored data (if available)
         goal_data = getattr(self, '_goal_data', {}).get(view_id)
         term_goal_data = getattr(self, '_term_goal_data', {}).get(view_id)
-        display_goal = get_setting(SETTING_DISPLAY_CURRENT_GOALS, True)
-        display_type = get_setting(SETTING_DISPLAY_EXPECTED_TYPE, True)
-        display_mdpopup = get_setting(SETTING_DISPLAY_MDPOPUP, True)
-        display_nogoals = get_setting(SETTING_DISPLAY_NOGOALS, False)
+        display_goal = get_setting(self.session, SETTING_DISPLAY_CURRENT_GOALS, True)
+        display_type = get_setting(self.session, SETTING_DISPLAY_EXPECTED_TYPE, True)
+        display_mdpopup = get_setting(self.session, SETTING_DISPLAY_MDPOPUP, True)
+        display_nogoals = get_setting(self.session, SETTING_DISPLAY_NOGOALS, False)
         # Decide what to display
         has_goals = display_goal and goal_data and goal_data.get('goals')
         has_types = display_type and term_goal_data and term_goal_data.get('goal')
@@ -327,8 +329,8 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
         """
         if not window:
             return
-        display_nogoals = get_setting(SETTING_DISPLAY_NOGOALS, False)
-        display_syntaxfile = get_setting(SETTING_DISPLAY_SYNTAXFILE, "")
+        display_nogoals = get_setting(self.session, SETTING_DISPLAY_NOGOALS, False)
+        display_syntaxfile = get_setting(self.session, SETTING_DISPLAY_SYNTAXFILE, "")
         # Create or get the infoview panel
         panel_name = "lean_infoview"
         panel = window.find_output_panel(panel_name)
@@ -491,7 +493,7 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
         """
         Format goal data and expected type as markdown for mdpopups
         """
-        display_nogoals = get_setting(SETTING_DISPLAY_NOGOALS, False)
+        display_nogoals = get_setting(self.session, SETTING_DISPLAY_NOGOALS, False)
 
         output: List[str] = []
         output.append('### Lean Infoview\n')
@@ -576,7 +578,11 @@ class ShowLeanInfoviewCommand(LspWindowCommand):
     """
 
     def run(self):
-        display_mdpopup = get_setting(SETTING_DISPLAY_MDPOPUP, True)
+        session = self.session_by_name('lean')
+        if not session:
+            sublime.status_message(f"{PACKAGE_NAME}: No active session")
+            return
+        display_mdpopup = get_setting(session, SETTING_DISPLAY_MDPOPUP, True)
         if not display_mdpopup:  # display output panel
             window = self.window
             # Create the panel if it doesn't exist
@@ -608,7 +614,11 @@ class HideLeanInfoviewCommand(LspWindowCommand):
     """
 
     def run(self):
-        display_mdpopup = get_setting(SETTING_DISPLAY_MDPOPUP, True)
+        session = self.session_by_name('lean')
+        if not session:
+            sublime.status_message(f"{PACKAGE_NAME}: No active session")
+            return
+        display_mdpopup = get_setting(session, SETTING_DISPLAY_MDPOPUP, True)
         if not display_mdpopup:  # hide output panel
             self.window.run_command("hide_panel", {"panel": "output.lean_infoview"})
         else:  # hide mdpopup
@@ -626,7 +636,7 @@ class LeanGoalCommand(LspTextCommand):
     capability = 'textDocumentSync'
     session_name = PACKAGE_NAME
 
-    def run(self, edit: sublime.Edit, event: Optional[Dict] = None):
+    def run(self, edit: sublime.Edit):
         view = self.view
         # Get cursor position
         sel = view.sel()
@@ -637,7 +647,7 @@ class LeanGoalCommand(LspTextCommand):
         # Get session
         session = self.session_by_name('lean')
         if not session:
-            sublime.status_message("Lean: No active session")
+            sublime.status_message(f"{PACKAGE_NAME}: No active session")
             return
         if not view.file_name():
             print(f"{PACKAGE_NAME}: No file path")
@@ -645,7 +655,7 @@ class LeanGoalCommand(LspTextCommand):
         # Prepare request
         params = {
             'textDocument': {
-                'uri': filename_to_uri(os.path.abspath(view.file_name())) if view.file_name() else ''
+                'uri': filename_to_uri(os.path.abspath(view.file_name() or ""))
             },
             'position': {
                 'line': row,
@@ -656,19 +666,19 @@ class LeanGoalCommand(LspTextCommand):
         request: Request[GoalData] = Request("$/lean/plainGoal", params)
         session.send_request(
             request,
-            lambda response: self.handle_response(response),
-            lambda error: self.handle_error(error)
+            lambda response: self.handle_response(session, response),
+            lambda error: self.handle_error(session, error)
         )
 
-    def handle_response(self, response: Response[GoalData]):
+    def handle_response(self, session: Session, response: Response[GoalData]):
         """
         Handle successful response
         """
-        display_mdpopup = get_setting(SETTING_DISPLAY_MDPOPUP, True)
+        display_mdpopup = get_setting(session, SETTING_DISPLAY_MDPOPUP, True)
         # Display in status bar for quick feedback
         if response and response.get('goals'):
             num_goals = len(response['goals'])
-            sublime.status_message(f"Lean: {num_goals} goal(s)")
+            sublime.status_message(f"{PACKAGE_NAME}: {num_goals} goal(s)")
             # Also display in popup
             listener = LeanInfoviewListener(self.view)
             if not display_mdpopup:
@@ -679,10 +689,10 @@ class LeanGoalCommand(LspTextCommand):
             else:
                 listener.display_goal_popup(self.view, response, None)
         else:
-            sublime.status_message("Lean: No goals at cursor")
+            sublime.status_message(f"{PACKAGE_NAME}: No goals at cursor")
 
-    def handle_error(self, error: Error):
+    def handle_error(self, session: Session, error: Error):
         """
         Handle error response
         """
-        sublime.error_message(f"Lean Error: {error}")
+        sublime.error_message(f"{PACKAGE_NAME} Error: {error}")
