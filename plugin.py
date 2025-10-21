@@ -1,4 +1,6 @@
 import os
+import weakref
+import functools
 import threading
 import urllib.parse
 
@@ -7,9 +9,10 @@ import sublime_plugin
 import mdpopups
 from LSP.plugin import LspTextCommand, Request, Session
 from LSP.plugin.core.types import ClientStates
-from LSP.plugin.core.typing import Optional, Any, Dict, List
+from LSP.plugin.core.typing import Optional, Any, Dict, List, Tuple
 from LSP.plugin.core.protocol import Error, Response
 from LSP.plugin.core.registry import windows
+from LSP.plugin.core.sessions import AbstractPlugin, register_plugin, unregister_plugin
 
 
 
@@ -32,6 +35,115 @@ def get_setting(key: str, default: Any = None) -> Any:
     """
     settings = sublime.load_settings(SETTINGS_FILE)
     return settings.get("settings", {}).get(key, default)
+
+
+
+class Lean(AbstractPlugin):
+    @classmethod
+    def name(cls) -> str:
+        return "LSP-{}".format(cls.__name__.lower())
+
+    @classmethod
+    def basedir(cls) -> str:
+        return os.path.join(cls.storage_path(), cls.name())
+
+    @classmethod
+    def version_file(cls) -> str:
+        return os.path.join(cls.basedir(), "VERSION")
+
+    @classmethod
+    def platform_arch(cls) -> str:
+        return {
+            "linux_x64": "linux-x64.tar.gz",
+            "osx_arm64": "darwin-arm64.tar.gz",
+            "osx_x64": "darwin-x64.tar.gz",
+            "windows_x32": "win32-ia32.zip",
+            "windows_x64": "win32-x64.zip",
+        }[sublime.platform() + "_" + sublime.arch()]
+
+    @classmethod
+    def needs_update_or_installation(cls) -> bool:
+        settings, _ = cls.configuration()
+        server_version = str(settings.get("server_version"))
+        try:
+            with open(cls.version_file(), "r") as fp:
+                return server_version != fp.read().strip()
+        except OSError:
+            return True
+
+    @classmethod
+    def install_or_update(cls) -> None:
+        pass
+
+    @classmethod
+    def configuration(cls) -> Tuple[sublime.Settings, str]:
+        base_name = "{}.sublime-settings".format(cls.name())
+        file_path = "Packages/{}/{}".format(cls.name(), base_name)
+        return sublime.load_settings(base_name), file_path
+
+    @classmethod
+    def additional_variables(cls) -> Optional[Dict[str, str]]:
+        settings, _ = cls.configuration()
+        return {}
+
+    def __init__(self, weaksession: 'weakref.ref[Session]') -> None:
+        super().__init__(weaksession)
+        self._settings_change_count = 0
+        self._queued_changes: List[Dict[str, Any]] = []
+
+    def _handle_config_commands_async(self, settings_change_count: int) -> None:
+        if self._settings_change_count != settings_change_count:
+            return
+        commands, self._queued_changes = self._queued_changes, []
+        session = self.weaksession()
+        if not session:
+            return
+        base, settings = self._get_server_settings(session.window)
+        if base is None or settings is None:
+            return
+        for command in commands:
+            action = command["action"]
+            key = command["key"]
+            value = command["value"]
+            if action == "set":
+                settings[key] = value
+            elif action == "add":
+                values = settings.get(key)
+                if not isinstance(values, list):
+                    values = []
+                values.append(value)
+                settings[key] = values
+            else:
+                print("LSP-lean: unrecognized action:", action)
+        session.window.set_project_data(base)
+        if not session.window.project_file_name():
+            sublime.message_dialog(" ".join((
+                "The server settings have been applied in the Window,",
+                "but this Window is not backed by a .sublime-project.",
+                "Click on Project > Save Project As... to store the settings."
+            )))
+
+    def _get_server_settings(self, window: sublime.Window) -> Tuple[Optional[Dict[str, Any]], Optional[Dict[str, Any]]]:
+        data = window.project_data()
+        if not isinstance(data, dict):
+            return None, None
+        if "settings" not in data:
+            data["settings"] = {}
+        if "LSP" not in data["settings"]:
+            data["settings"]["LSP"] = {}
+        if "LSP-lean" not in data["settings"]["LSP"]:
+            data["settings"]["LSP"]["LSP-lean"] = {}
+        if "settings" not in data["settings"]["LSP"]["LSP-lean"]:
+            data["settings"]["LSP"]["LSP-lean"]["settings"] = {}
+        return data, data["settings"]["LSP"]["LSP-lean"]["settings"]
+
+
+
+def plugin_loaded() -> None:
+    register_plugin(Lean)
+
+def plugin_unloaded() -> None:
+    unregister_plugin(Lean)
 
 
 

@@ -10,10 +10,7 @@
 	"selector": "source.lean",
 
 	// The startup command for this language server
-	"command": [
-		"lean",
-		"--server"
-	],
+	"command": [ "lean", "--server" ],
 
 	// Initialization options sent to the subprocess during startup.
 	// You should normally not touch this.
