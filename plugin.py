@@ -42,6 +42,10 @@ def get_setting(session: Session, key: str, default: Any = None) -> Any:
 
 
 class Lean(AbstractPlugin):
+    """
+    Represents the plugin itself
+    """
+
     @classmethod
     def name(cls) -> str:
         return "LSP-{}".format(cls.__name__.lower())
@@ -112,7 +116,7 @@ class Lean(AbstractPlugin):
                 values.append(value)
                 settings[key] = values
             else:
-                print(f"{PACKAGE_NAME}: unrecognized action:", action)
+                sublime.error_message(f"{PACKAGE_NAME}: unrecognized action:", action)
         session.window.set_project_data(base)
         if not session.window.project_file_name():
             sublime.message_dialog(" ".join((
@@ -204,20 +208,20 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
         # Get the session for this view
         session = self.get_lean_session(view)
         if not session:
-            print(f"{PACKAGE_NAME}: No active session found")
+            sublime.status_message(f"{PACKAGE_NAME}: No active session found")
             return
         self.session = session
         # Check if session is ready
         if not self.session.state == ClientStates.READY:
-            print(f"{PACKAGE_NAME}: Session not ready yet")
+            sublime.status_message(f"{PACKAGE_NAME}: Session not ready yet")
             return
         # Lean requires saved files to process
         if view.is_dirty():
-            print(f"{PACKAGE_NAME}: File has unsaved changes, save first")
+            sublime.status_message(f"{PACKAGE_NAME}: File has unsaved changes, save first")
             #view.run_command('save') # Optionally auto-save
             return
         if not view.file_name():
-            print(f"{PACKAGE_NAME}: No file path")
+            sublime.status_message(f"{PACKAGE_NAME}: No open file path")
             return
         # Prepare LSP request parameters
         params = {
@@ -262,7 +266,7 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
         Handle goal state response from Lean server
         """
         if isinstance(response, dict) and 'error' in response:
-            print(f"{PACKAGE_NAME}: Error getting goal: {response['error']}")
+            sublime.error_message(f"{PACKAGE_NAME}: Error getting goal: {response['error']}")
             return
         # Store the goal response for combined display
         if not hasattr(self, '_goal_data'):
@@ -277,7 +281,7 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
         Handle expected type (term goal) response from Lean server
         """
         if isinstance(response, dict) and 'error' in response:
-            print(f"{PACKAGE_NAME}: Error getting expected type: {response['error']}")
+            sublime.error_message(f"{PACKAGE_NAME}: Error getting expected type: {response['error']}")
             return
         # Store the term goal response for combined display
         if not hasattr(self, '_term_goal_data'):
@@ -650,7 +654,7 @@ class LeanGoalCommand(LspTextCommand):
             sublime.status_message(f"{PACKAGE_NAME}: No active session")
             return
         if not view.file_name():
-            print(f"{PACKAGE_NAME}: No file path")
+            sublime.status_message(f"{PACKAGE_NAME}: No open file path")
             return
         # Prepare request
         params = {
