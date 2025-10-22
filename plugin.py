@@ -39,7 +39,7 @@ class Lean(AbstractPlugin):
 
     @classmethod
     def name(cls) -> str:
-        return "LSP-{}".format(cls.__name__.lower())
+        return PACKAGE_NAME
 
     @classmethod
     def basedir(cls) -> str:
@@ -147,13 +147,12 @@ class Lean(AbstractPlugin):
         Request goal state at cursor position from Lean LSP server
         """
         # Get the session for this view
-        session = Lean.get_lean_session(view)
+        session = self.weaksession() #Lean.get_lean_session(view)
         if not session:
             sublime.status_message(f"{PACKAGE_NAME}: No active session found")
             return
-        self.session = session
         # Check if session is ready
-        if not self.session.state == ClientStates.READY:
+        if not session.state == ClientStates.READY:
             sublime.status_message(f"{PACKAGE_NAME}: Session not ready yet")
             return
         # Lean requires saved files to process
@@ -175,13 +174,13 @@ class Lean(AbstractPlugin):
             }
         }
         # Send custom Lean LSP request for plain goal
-        if self.session.config.settings.get(SETTING_DISPLAY_CURRENT_GOALS):
+        if session.config.settings.get(SETTING_DISPLAY_CURRENT_GOALS):
             #print(f"{PACKAGE_NAME}: Requesting goal at {row}:{col} for {file_uri}")
             request: Request[GoalData] = Request("$/lean/plainGoal", params)
             session.send_request(request, #type:ignore
                 lambda response: self.on_goal_response(view, response))
         # Also request expected type if enabled
-        if self.session.config.settings.get(SETTING_DISPLAY_EXPECTED_TYPE):
+        if session.config.settings.get(SETTING_DISPLAY_EXPECTED_TYPE):
             #print(f"{PACKAGE_NAME}: Requesting term at {row}:{col} for {file_uri}")
             term_goal_request: Request[TermGoalData] = Request("$/lean/plainTermGoal", params)
             session.send_request(term_goal_request, #type:ignore
@@ -222,14 +221,18 @@ class Lean(AbstractPlugin):
         """
         Display both goals and expected type together
         """
+        session = self.weaksession()
+        if not session:
+            sublime.status_message(f"{PACKAGE_NAME}: No active session")
+            return
         view_id = view.id()
         # Get stored data (if available)
         goal_data = getattr(self, '_goal_data', {}).get(view_id)
         term_goal_data = getattr(self, '_term_goal_data', {}).get(view_id)
-        display_goal = self.session.config.settings.get(SETTING_DISPLAY_CURRENT_GOALS)
-        display_type = self.session.config.settings.get(SETTING_DISPLAY_EXPECTED_TYPE)
-        display_mdpopup = self.session.config.settings.get(SETTING_DISPLAY_MDPOPUP)
-        display_nogoals = self.session.config.settings.get(SETTING_DISPLAY_NOGOALS)
+        display_goal = session.config.settings.get(SETTING_DISPLAY_CURRENT_GOALS)
+        display_type = session.config.settings.get(SETTING_DISPLAY_EXPECTED_TYPE)
+        display_mdpopup = session.config.settings.get(SETTING_DISPLAY_MDPOPUP)
+        display_nogoals = session.config.settings.get(SETTING_DISPLAY_NOGOALS)
         # Decide what to display
         has_goals = display_goal and goal_data and goal_data.get('goals')
         has_types = display_type and term_goal_data and term_goal_data.get('goal')
@@ -259,8 +262,12 @@ class Lean(AbstractPlugin):
         """
         if not window:
             return
-        display_nogoals = self.session.config.settings.get(SETTING_DISPLAY_NOGOALS)
-        display_syntaxfile = self.session.config.settings.get(SETTING_DISPLAY_SYNTAXFILE)
+        session = self.weaksession()
+        if not session:
+            sublime.status_message(f"{PACKAGE_NAME}: No active session")
+            return
+        display_nogoals = session.config.settings.get(SETTING_DISPLAY_NOGOALS)
+        display_syntaxfile = session.config.settings.get(SETTING_DISPLAY_SYNTAXFILE)
         # Create or get the infoview panel
         panel_name = "lean_infoview"
         panel = window.find_output_panel(panel_name)
@@ -423,7 +430,11 @@ class Lean(AbstractPlugin):
         """
         Format goal data and expected type as markdown for mdpopups
         """
-        display_nogoals = self.session.config.settings.get(SETTING_DISPLAY_NOGOALS)
+        session = self.weaksession()
+        if not session:
+            sublime.status_message(f"{PACKAGE_NAME}: No active session")
+            return ""
+        display_nogoals = session.config.settings.get(SETTING_DISPLAY_NOGOALS)
 
         output: List[str] = []
         output.append('### Lean Infoview\n')
@@ -516,7 +527,7 @@ class ShowLeanInfoviewCommand(LspWindowCommand):
     """
 
     def run(self):
-        session = self.session_by_name('lean')
+        session = self.session_by_name(PACKAGE_NAME)
         if not session:
             sublime.status_message(f"{PACKAGE_NAME}: No active session")
             return
@@ -552,7 +563,7 @@ class HideLeanInfoviewCommand(LspWindowCommand):
     """
 
     def run(self):
-        session = self.session_by_name('lean')
+        session = self.session_by_name(PACKAGE_NAME)
         if not session:
             sublime.status_message(f"{PACKAGE_NAME}: No active session")
             return
@@ -583,7 +594,7 @@ class LeanGoalCommand(LspTextCommand):
         point = sel[0].begin()
         row, col = view.rowcol(point)
         # Get session
-        session = self.session_by_name('lean')
+        session = Lean.get_lean_session(view)
         if not session:
             sublime.status_message(f"{PACKAGE_NAME}: No active session")
             return
