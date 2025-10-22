@@ -42,7 +42,7 @@
                       "description": "Display \"No goals\" message when cursor is at a position with no goals"
                     },
                     "display_syntaxfile": {
-                      "type": "boolean",
+                      "type": "string",
                       "default": "Packages/Lean/Lean.sublime-syntax",
                       "description": "The path of the syntax coloring file to use in the infoview display"
                     }
