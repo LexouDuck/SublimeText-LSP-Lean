@@ -175,13 +175,13 @@ class Lean(AbstractPlugin):
         }
         # Send custom Lean LSP request for plain goal
         if session.config.settings.get(SETTING_DISPLAY_CURRENT_GOALS):
-            #print(f"{PACKAGE_NAME}: Requesting goal at {row}:{col} for {file_uri}")
+            #print(f"{PACKAGE_NAME}: Requesting goal at {row}:{col} for {view.file_name()}")
             request: Request[GoalData] = Request("$/lean/plainGoal", params)
             session.send_request(request, #type:ignore
                 lambda response: self.on_goal_response(view, response))
         # Also request expected type if enabled
         if session.config.settings.get(SETTING_DISPLAY_EXPECTED_TYPE):
-            #print(f"{PACKAGE_NAME}: Requesting term at {row}:{col} for {file_uri}")
+            #print(f"{PACKAGE_NAME}: Requesting term at {row}:{col} for {view.file_name()}")
             term_goal_request: Request[TermGoalData] = Request("$/lean/plainTermGoal", params)
             session.send_request(term_goal_request, #type:ignore
                 lambda response: self.on_term_goal_response(view, response))
@@ -310,8 +310,7 @@ class Lean(AbstractPlugin):
         # Format each goal
         output: List[str] = []
         for i, goal in enumerate(goals):
-            output.append(f"Goal {i + 1}:")
-            output.append("-" * 40)
+            output.append(f"-- Goal {i + 1}:\n")
             if isinstance(goal, str): # Simple string goal
                 output.append(goal)
                 output.append("")
@@ -319,13 +318,14 @@ class Lean(AbstractPlugin):
                 # Show hypotheses
                 hypotheses: List[str] = goal.get('hypotheses', []) #type:ignore
                 if hypotheses:
-                    output.append("\nHypotheses:")
+                    output.append("\n-- Hypotheses:")
                     for h in hypotheses:
                         output.append(f"  {h}")
                 # Show goal
                 conclusion: str = goal.get('conclusion', goal.get('type', 'unknown')) #type:ignore
                 output.append(f"\n⊢ {conclusion}")
                 output.append("")
+            output.append("-" * 40)
         return "\n".join(output)
 
     def format_type(self, term_goal_data: Optional[TermGoalData]) -> str:
@@ -338,9 +338,9 @@ class Lean(AbstractPlugin):
         if not term:
             return ""
         output: List[str] = []
-        output.append("Expected Type")
-        output.append("-" * 40)
+        output.append("-- Expected Type:\n")
         output.append(term)
+        output.append("-" * 40)
         return "\n".join(output)
 
 
