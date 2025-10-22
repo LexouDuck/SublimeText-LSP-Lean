@@ -52,9 +52,9 @@ class Lean(AbstractPlugin):
     @classmethod
     def platform_arch(cls) -> str:
         return {
-            "linux_x64": "linux-x64.tar.gz",
-            "osx_arm64": "darwin-arm64.tar.gz",
-            "osx_x64": "darwin-x64.tar.gz",
+            "linux_x64":   "linux-x64.tar.gz",
+            "osx_arm64":   "darwin-arm64.tar.gz",
+            "osx_x64":     "darwin-x64.tar.gz",
             "windows_x32": "win32-ia32.zip",
             "windows_x64": "win32-x64.zip",
         }[sublime.platform() + "_" + sublime.arch()]
@@ -84,57 +84,41 @@ class Lean(AbstractPlugin):
         self._settings_change_count = 0
         self._queued_changes: List[Dict[str, Any]] = []
 
-    def _handle_config_commands_async(self, settings_change_count: int) -> None:
-        if self._settings_change_count != settings_change_count:
-            return
-        commands, self._queued_changes = self._queued_changes, []
-        session = self.weaksession()
-        if not session:
-            return
-        base, settings = self._get_server_settings(session.window)
-        if base is None or settings is None:
-            return
-        for command in commands:
-            action = command["action"]
-            key = command["key"]
-            value = command["value"]
-            if action == "set":
-                settings[key] = value
-            elif action == "add":
-                values = settings.get(key)
-                if not isinstance(values, list):
-                    values = []
-                values.append(value)
-                settings[key] = values
-            else:
-                sublime.error_message(f"{PACKAGE_NAME}: unrecognized action:", action)
-        session.window.set_project_data(base)
-        if not session.window.project_file_name():
-            sublime.message_dialog(" ".join((
-                "The server settings have been applied in the Window,",
-                "but this Window is not backed by a .sublime-project.",
-                "Click on Project > Save Project As... to store the settings."
-            )))
+    @staticmethod
+    def is_lean_view(view: sublime.View) -> bool:
+        """
+        Check if view is a Lean file
+        """
+        syntax = view.settings().get('syntax')
+        return (syntax and ('Lean' in syntax)) #type:ignore
 
-    def _get_server_settings(self, window: sublime.Window) -> Tuple[Optional[Dict[str, Any]], Optional[Dict[str, Any]]]:
-        data = window.project_data()
-        if not isinstance(data, dict):
-            return None, None
-        if "settings" not in data:
-            data["settings"] = {}
-        if "LSP" not in data["settings"]:
-            data["settings"]["LSP"] = {}
-        if PACKAGE_NAME not in data["settings"]["LSP"]:
-            data["settings"]["LSP"][PACKAGE_NAME] = {}
-        if "settings" not in data["settings"]["LSP"][PACKAGE_NAME]:
-            data["settings"]["LSP"][PACKAGE_NAME]["settings"] = {}
-        return data, data["settings"]["LSP"][PACKAGE_NAME]["settings"]
+    @staticmethod
+    def get_lean_session(view: sublime.View) -> Optional[Session]:
+        """
+        Get the active Lean LSP session for this view
+        """
+        window = view.window()
+        if not window:
+            return None
+        # Get the window manager
+        manager = windows.lookup(window)
+        if not manager:
+            return None
+        # Find Lean session
+        for session in manager.sessions(view):
+            if 'lean' in session.config.name.lower():
+                return session
+        return None
 
     @override
     def on_selection_modified_async(self, session_view: SessionViewProtocol):
         """
         Called when cursor position changes
         """
+        view = session_view.view
+        # Only process if this is a Lean file
+        if not self.is_lean_view(view):
+            return
         # Cancel any pending request
         if hasattr(self, '_pending_timeout'):
             try:
@@ -163,7 +147,7 @@ class Lean(AbstractPlugin):
         Request goal state at cursor position from Lean LSP server
         """
         # Get the session for this view
-        session = self.get_lean_session(view)
+        session = Lean.get_lean_session(view)
         if not session:
             sublime.status_message(f"{PACKAGE_NAME}: No active session found")
             return
@@ -194,29 +178,14 @@ class Lean(AbstractPlugin):
         if self.session.config.settings.get(SETTING_DISPLAY_CURRENT_GOALS):
             #print(f"{PACKAGE_NAME}: Requesting goal at {row}:{col} for {file_uri}")
             request: Request[GoalData] = Request("$/lean/plainGoal", params)
-            session.send_request(request, lambda response: self.on_goal_response(view, response))
+            session.send_request(request, #type:ignore
+                lambda response: self.on_goal_response(view, response))
         # Also request expected type if enabled
         if self.session.config.settings.get(SETTING_DISPLAY_EXPECTED_TYPE):
             #print(f"{PACKAGE_NAME}: Requesting term at {row}:{col} for {file_uri}")
             term_goal_request: Request[TermGoalData] = Request("$/lean/plainTermGoal", params)
-            session.send_request(term_goal_request, lambda response: self.on_term_goal_response(view, response))
-
-    def get_lean_session(self, view: sublime.View) -> Optional[Session]:
-        """
-        Get the active Lean LSP session for this view
-        """
-        window = view.window()
-        if not window:
-            return None
-        # Get the window manager
-        manager = windows.lookup(window)
-        if not manager:
-            return None
-        # Find Lean session
-        for session in manager.sessions(view):
-            if 'lean' in session.config.name.lower():
-                return session
-        return None
+            session.send_request(term_goal_request, #type:ignore
+                lambda response: self.on_term_goal_response(view, response))
 
     def on_goal_response(self, view: sublime.View, response: Response[GoalData]):
         """
@@ -434,7 +403,7 @@ class Lean(AbstractPlugin):
         }
         """
         # Show popup at cursor position
-        mdpopups.show_popup(
+        mdpopups.show_popup( #type:ignore
             view,
             markdown_content,
             md=True,
@@ -568,12 +537,12 @@ class ShowLeanInfoviewCommand(LspWindowCommand):
             if not view:
                 return
             # Trigger a goal request at current cursor position
-            listener = LeanInfoviewListener(view)
+            plugin = Lean(weakref.ref(session))
             sel = view.sel()
-            if len(sel) > 0:
+            if (len(sel) > 0):
                 point = sel[0].begin()
                 row, col = view.rowcol(point)
-                listener.request_goal_state(view, row, col)
+                plugin.request_goal_state(view, row, col)
 
 
 
@@ -593,7 +562,7 @@ class HideLeanInfoviewCommand(LspWindowCommand):
         else:  # hide mdpopup
             view = self.window.active_view()
             if view:
-                mdpopups.hide_popup(view)
+                mdpopups.hide_popup(view) #type:ignore
 
 
 
@@ -633,8 +602,7 @@ class LeanGoalCommand(LspTextCommand):
         }
         # Send request
         request: Request[GoalData] = Request("$/lean/plainGoal", params)
-        session.send_request(
-            request,
+        session.send_request(request, #type:ignore
             lambda response: self.handle_response(session, response),
             lambda error: self.handle_error(session, error)
         )
@@ -645,18 +613,18 @@ class LeanGoalCommand(LspTextCommand):
         """
         display_mdpopup = session.config.settings.get(SETTING_DISPLAY_MDPOPUP)
         # Display in status bar for quick feedback
-        if response and response.get('goals'):
-            num_goals = len(response['goals'])
+        if (response and response.get('goals')):
+            num_goals: int = len(response['goals'])
             sublime.status_message(f"{PACKAGE_NAME}: {num_goals} goal(s)")
             # Also display in popup
-            listener = LeanInfoviewListener(self.view)
+            plugin = Lean(weakref.ref(session))
             if not display_mdpopup:
                 window = self.view.window()
                 if window is None:
                     raise Exception("No view window")
-                listener.display_goal_panel(window, response, None)
+                plugin.display_goal_panel(window, response, None)
             else:
-                listener.display_goal_popup(self.view, response, None)
+                plugin.display_goal_popup(self.view, response, None)
         else:
             sublime.status_message(f"{PACKAGE_NAME}: No goals at cursor")
 
