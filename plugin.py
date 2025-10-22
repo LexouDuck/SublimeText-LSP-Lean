@@ -1,8 +1,7 @@
 import os
+from typing_extensions import override
 import weakref
-import functools
 import threading
-import urllib.parse
 
 import sublime
 import sublime_plugin
@@ -12,7 +11,7 @@ from LSP.plugin.core.types import ClientStates
 from LSP.plugin.core.typing import Optional, Any, Dict, List, Tuple
 from LSP.plugin.core.protocol import Error, Response
 from LSP.plugin.core.registry import windows
-from LSP.plugin.core.sessions import AbstractPlugin, register_plugin, unregister_plugin
+from LSP.plugin.core.sessions import AbstractPlugin, SessionViewProtocol, register_plugin, unregister_plugin
 
 
 
@@ -131,53 +130,19 @@ class Lean(AbstractPlugin):
             data["settings"]["LSP"][PACKAGE_NAME]["settings"] = {}
         return data, data["settings"]["LSP"][PACKAGE_NAME]["settings"]
 
-
-
-def plugin_loaded() -> None:
-    register_plugin(Lean)
-
-def plugin_unloaded() -> None:
-    unregister_plugin(Lean)
-
-
-
-class LeanInfoviewListener(sublime_plugin.ViewEventListener):
-    """
-    Listen to cursor movements and update infoview
-    """
-
-    session: Session
-
-    @classmethod
-    def is_applicable(cls, settings: sublime.Settings) -> bool:
-        # Only activate for Lean files
-        syntax = settings.get('syntax')
-        return (syntax is not None and ('Lean' in syntax))
-
-    def is_lean_view(self, view: sublime.View):
-        """
-        Check if view is a Lean file
-        """
-        syntax = view.settings().get('syntax')
-        return (syntax and ('Lean' in syntax))
-
-    def on_selection_modified_async(self):
+    @override
+    def on_selection_modified_async(self, session_view: SessionViewProtocol):
         """
         Called when cursor position changes
         """
-        view = self.view
-        # Only process if this is a Lean file
-        if not self.is_lean_view(view):
-            return
-        # Wait a bit to avoid too many requests while typing/moving cursor
         # Cancel any pending request
         if hasattr(self, '_pending_timeout'):
             try:
                 self._pending_timeout.cancel()
             except:
                 pass
-        # Schedule request with small delay
-        self._pending_timeout = threading.Timer(0.3, lambda: self._do_request(view))
+        # Wait a bit to avoid too many requests while typing/moving cursor
+        self._pending_timeout = threading.Timer(0.1, lambda: self._do_request(view))
         self._pending_timeout.start()
 
     def _do_request(self, view: sublime.View):
@@ -376,13 +341,13 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
                 output.append("")
             elif isinstance(goal, dict): # Structured goal with hypotheses and conclusion
                 # Show hypotheses
-                hypotheses = goal.get('hypotheses', [])
+                hypotheses: List[str] = goal.get('hypotheses', []) #type:ignore
                 if hypotheses:
                     output.append("\nHypotheses:")
                     for h in hypotheses:
                         output.append(f"  {h}")
                 # Show goal
-                conclusion = goal.get('conclusion', goal.get('type', 'unknown'))
+                conclusion: str = goal.get('conclusion', goal.get('type', 'unknown')) #type:ignore
                 output.append(f"\n⊢ {conclusion}")
                 output.append("")
         return "\n".join(output)
@@ -524,7 +489,7 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
             if isinstance(goal, str): # Simple string goal
                 output.append(f'```lean\n{goal}\n```\n')
             elif isinstance(goal, dict): # Structured goal with hypotheses and conclusion
-                hypotheses = goal.get('hypotheses', [])
+                hypotheses: List[str] = goal.get('hypotheses', []) #type:ignore
                 if hypotheses:
                     output.append('<div class="hypotheses">\n')
                     for h in hypotheses:
@@ -535,7 +500,7 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
                 # Show turnstile
                 output.append('<div class="turnstile">⊢</div>\n')
                 # Show goal/conclusion
-                conclusion = goal.get('conclusion', goal.get('type', 'unknown'))
+                conclusion: str = goal.get('conclusion', goal.get('type', 'unknown')) #type:ignore
                 conclusion_escaped = self._escape_html(conclusion)
                 output.append(f'<div class="conclusion">`{conclusion_escaped}`</div>\n')
             output.append('\n')
@@ -565,6 +530,14 @@ class LeanInfoviewListener(sublime_plugin.ViewEventListener):
                 .replace('>', '&gt;')
                 .replace('"', '&quot;')
                 .replace("'", '&#39;'))
+
+
+
+def plugin_loaded() -> None:
+    register_plugin(Lean)
+
+def plugin_unloaded() -> None:
+    unregister_plugin(Lean)
 
 
 
