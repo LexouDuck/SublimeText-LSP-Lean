@@ -8,15 +8,11 @@
 		}
 	},
     {
-        "caption": "LSP-lean: Show Lean Infoview Panel",
-        "command": "show_lean_infoview",
+        "caption": "LSP-lean: Show/Hide Lean Infoview Panel",
+        "command": "toggle_lean_infoview_cursor",
     },
     {
-        "caption": "LSP-lean: Hide Lean Infoview Panel",
-        "command": "hide_lean_infoview",
-    },
-    {
-        "caption": "LSP-lean: Display goal at cursor position",
-        "command": "lean_goal",
+        "caption": "LSP-lean: Display Lean Infoview for cursor position",
+        "command": "lean_infoview",
     },
 ]
