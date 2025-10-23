@@ -5,14 +5,12 @@ import threading
 
 import sublime
 from LSP.plugin import Session
-from LSP.plugin.core.typing import Optional, Any, Dict, List, Tuple
+from LSP.plugin.core.typing import Any, Dict, List, Tuple
 from LSP.plugin.core.sessions import AbstractPlugin, SessionViewProtocol, register_plugin, unregister_plugin
 
-from .plugin_settings import PACKAGE_NAME, SETTINGS_FILE
+from .plugin_utils import PACKAGE_NAME, SETTINGS_FILE
 from .plugin_infoview import LeanInfoview
-from .plugin_unicode import (
-    plugin_loaded as unicode_plugin_loaded
-)
+from .plugin_unicode import plugin_loaded as unicode_plugin_loaded
 
 
 

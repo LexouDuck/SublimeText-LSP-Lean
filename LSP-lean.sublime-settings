@@ -57,7 +57,7 @@
 		
 		// Enable eager replacement when abbreviation is complete.
 		// If false, requires Tab to trigger replacement
-		"unicode_input_eager_replacement": false,
+		"unicode_input_eager_replacement": true,
 		
 		// Custom abbreviation translations (JSON object)
 		// Example: {"foo": "☺"} will make \foo produce ☺

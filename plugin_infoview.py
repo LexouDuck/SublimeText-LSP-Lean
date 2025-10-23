@@ -4,11 +4,10 @@ import sublime
 import mdpopups
 from LSP.plugin import LspTextCommand, LspWindowCommand, Request, Session, filename_to_uri
 from LSP.plugin.core.types import ClientStates
-from LSP.plugin.core.typing import Optional, Any, Dict, List, Tuple
-from LSP.plugin.core.registry import windows
+from LSP.plugin.core.typing import Optional, Any, List
 from LSP.plugin.core.protocol import Response
 
-from .plugin_settings import (
+from .plugin_utils import (
     PACKAGE_NAME,
     #SETTINGS_FILE,
     SETTING_DISPLAY_CURRENT_GOALS,
@@ -16,14 +15,13 @@ from .plugin_settings import (
     SETTING_DISPLAY_MDPOPUP,
     SETTING_DISPLAY_NOGOALS,
     SETTING_DISPLAY_SYNTAXFILE,
+    get_lean_session
 )
 
 
 
 GoalData = Any
 TermGoalData = Any
-
-
 
 
 
@@ -106,14 +104,14 @@ class LeanInfoview:
         """
         Display both goals and expected type together
         """
-        view_id = view.id()
-        # Get stored data (if available)
-        goal_data = getattr(self, '_goal_data', {}).get(view_id)
-        term_goal_data = getattr(self, '_term_goal_data', {}).get(view_id)
         display_goal = session.config.settings.get(SETTING_DISPLAY_CURRENT_GOALS)
         display_type = session.config.settings.get(SETTING_DISPLAY_EXPECTED_TYPE)
         display_mdpopup = session.config.settings.get(SETTING_DISPLAY_MDPOPUP)
         display_nogoals = session.config.settings.get(SETTING_DISPLAY_NOGOALS)
+        # Get stored data (if available)
+        view_id = view.id()
+        goal_data = self._goal_data.get(view_id)
+        term_goal_data = self._term_goal_data.get(view_id)
         # Decide what to display
         has_goals = display_goal and goal_data and goal_data.get('goals')
         has_types = display_type and term_goal_data and term_goal_data.get('goal')
@@ -382,25 +380,6 @@ class LeanInfoview:
                 .replace('>', '&gt;')
                 .replace('"', '&quot;')
                 .replace("'", '&#39;'))
-
-
-
-def get_lean_session(view: sublime.View) -> Optional[Session]:
-    """
-    Get the active Lean LSP session for this view
-    """
-    window = view.window()
-    if not window:
-        return None
-    # Get the window manager
-    manager = windows.lookup(window)
-    if not manager:
-        return None
-    # Find Lean session
-    for session in manager.sessions(view):
-        if 'lean' in session.config.name.lower():
-            return session
-    return None
 
 
 

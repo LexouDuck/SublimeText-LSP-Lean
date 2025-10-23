@@ -4,9 +4,9 @@ import json
 import sublime
 import sublime_plugin
 from LSP.plugin import LspTextCommand, LspWindowCommand, Session
-from LSP.plugin.core.typing import Optional, Any, Set, Dict, List, Tuple
+from LSP.plugin.core.typing import Optional, Set, Dict
 
-from .plugin_settings import (
+from .plugin_utils import (
     PACKAGE_NAME,
     SETTINGS_FILE,
     SETTING_UNICODE_ENABLED,
@@ -14,6 +14,7 @@ from .plugin_settings import (
     SETTING_UNICODE_ENDER,
     SETTING_UNICODE_EAGER,
     SETTING_UNICODE_CUSTOM,
+    get_lean_session
 )
 
 
@@ -26,7 +27,6 @@ class LeanUnicodeInput:
     def __init__(self):
         self.abbreviations: Dict[str, str] = {}
         self.prefix_tree: Set[str] = set()
-        self.load_abbreviations()
 
     def load_abbreviations(self):
         """
@@ -64,15 +64,18 @@ class LeanUnicodeInput:
         """
         return text in self.prefix_tree
 
-    def is_complete_abbreviation(self, text: str) -> bool:
+    def is_complete_abbreviation(self, text: str, strict: bool = False) -> bool:
         """
-        Check if text is a complete abbreviation (not a prefix of a longer one)
+        Check if text is a complete abbreviation.
+        If `strict` is True, any prefix of a longer one will return False
         """
-        if text not in self.abbreviations:
-            return False
-        # Check if this abbreviation is a prefix of any other
-        longer = text + "x"  # Any character
-        return not any(abbrev.startswith(longer) for abbrev in self.abbreviations.keys())
+        if not strict:
+            return (text in self.abbreviations)
+        else:
+            if (text not in self.abbreviations):
+                return False
+            # Check if this abbreviation is a prefix of any other
+            return not any((text != abbrev and abbrev.startswith(text)) for abbrev in self.abbreviations.keys())
 
     def get_replacement(self, text: str) -> Optional[str]:
         """
@@ -167,27 +170,30 @@ class LeanUnicodeListener(sublime_plugin.ViewEventListener):
 
     def __init__(self, view: sublime.View):
         super().__init__(view)
-        self.pending_abbreviation = ""
-        self.pending_region: Optional[sublime.Region] = None
+        self.abbrev_text: str = ""
+        self.abbrev_region: Optional[sublime.Region] = None
 
     def on_modified(self):
         """
         Called when the view is modified
         """
-        settings = sublime.load_settings(SETTINGS_FILE)
-        enabled: bool = settings.get("settings", {}).get(SETTING_UNICODE_ENABLED, True) #type:ignore
+        session = get_lean_session(self.view)
+        if not session:
+            sublime.status_message(f"{PACKAGE_NAME}: No active session")
+            return
+        enabled: bool = session.config.settings.get(SETTING_UNICODE_ENABLED) #type:ignore
         if not enabled:
             return
-        leader: str = settings.get("settings", {}).get(SETTING_UNICODE_LEADER, "\\") #type:ignore
-        ender: str  = settings.get("settings", {}).get(SETTING_UNICODE_ENDER, "\t") #type:ignore
-        eager: bool = settings.get("settings", {}).get(SETTING_UNICODE_EAGER, False) #type:ignore
+        leader: str = session.config.settings.get(SETTING_UNICODE_LEADER) #type:ignore
+        ender: str  = session.config.settings.get(SETTING_UNICODE_ENDER) #type:ignore
+        eager: bool = session.config.settings.get(SETTING_UNICODE_EAGER) #type:ignore
         # Get the cursor position
         sel = self.view.sel()
         if len(sel) == 0:
             return
         point = sel[0].begin()
-        # Check if we're in the middle of an abbreviation
-        if self.pending_region and self.pending_region.contains(point - 1):
+        if self.abbrev_region and self.abbrev_region.contains(point - 1):
+            # Check if we're in the middle of an abbreviation
             self.update_abbreviation(point, leader, ender, eager)
         else:
             # Check if we just typed the leader character
@@ -196,76 +202,90 @@ class LeanUnicodeListener(sublime_plugin.ViewEventListener):
                 prev_char = self.view.substr(sublime.Region(start, point))
                 if (prev_char == leader):
                     # Start tracking abbreviation
-                    self.pending_region = sublime.Region(start, point)
-                    self.pending_abbreviation = ""
+                    self.abbrev_region = sublime.Region(start, point)
+                    self.abbrev_text = ""
                     print(f"{PACKAGE_NAME}: Started abbreviation sequence at {point}")
 
     def update_abbreviation(self, point: int, leader: str, ender: str, eager: bool):
         """
         Update the current abbreviation being typed
         """
-        if not self.pending_region:
+        if not self.abbrev_region:
             return
         # Get the text of the current abbreviation (without leader)
-        abbrev_region = sublime.Region(self.pending_region.begin() + len(leader), point)
+        abbrev_region = sublime.Region(self.abbrev_region.begin() + len(leader), point)
         abbrev_text = self.view.substr(abbrev_region)
+        print(f"{PACKAGE_NAME}: Typing abbreviation sequence at {point}: \"{abbrev_text}\"")
         # Check if this is a valid abbreviation or prefix
         if _unicode_input.is_prefix(abbrev_text):
-            self.pending_abbreviation = abbrev_text
-            self.pending_region = sublime.Region(self.pending_region.begin(), point)
-            print(f"{PACKAGE_NAME}: Typing abbreviation sequence at {point}: \"{self.pending_abbreviation}\"")
+            self.abbrev_text = abbrev_text
+            self.abbrev_region = sublime.Region(self.abbrev_region.begin(), point)
             # If eager replacement is enabled and this is a complete abbreviation
-            if eager and _unicode_input.is_complete_abbreviation(abbrev_text):
+            if eager and _unicode_input.is_complete_abbreviation(abbrev_text, strict=True):
                 replacement = _unicode_input.get_replacement(abbrev_text)
                 if replacement:
                     self.replace_abbreviation(replacement)
-            if (len(abbrev_text) >= len(ender)):
-                ender_text = abbrev_text[-len(ender):]
-                abbrev_text = abbrev_text[:-len(ender)]
-                if _unicode_input.is_complete_abbreviation(abbrev_text) and (ender_text == ender):
+                    return
+            elif (self.abbrev_text[-len(ender):] == ender):
+                abbrev_text_region = sublime.Region(
+                    self.abbrev_region.begin() + len(leader),
+                    self.abbrev_region.end() - len(ender))
+                abbrev_text = self.view.substr(abbrev_text_region)
+                if _unicode_input.is_complete_abbreviation(abbrev_text):
                     replacement = _unicode_input.get_replacement(abbrev_text)
                     if replacement:
                         self.replace_abbreviation(replacement)
+                        return
         else: # Not a valid prefix, clear pending
-            self.pending_abbreviation = ""
-            self.pending_region = None
-            #print(f"{PACKAGE_NAME}: Invalid abbreviation prefix: {abbrev_text}")
+            if eager and _unicode_input.is_complete_abbreviation(self.abbrev_text):
+                replacement = _unicode_input.get_replacement(self.abbrev_text)
+                if replacement:
+                    self.replace_abbreviation(replacement)
+                    return
+            self.abbrev_text = ""
+            self.abbrev_region = None
+            print(f"{PACKAGE_NAME}: Invalid abbreviation: \"{abbrev_text}\"")
 
     def replace_abbreviation(self, replacement: str):
         """
         Replace the abbreviation with its unicode character
         """
-        if not self.pending_region:
+        if not self.abbrev_region:
             return
-        print(f"{PACKAGE_NAME}: Completed abbreviation sequence: \"{self.pending_abbreviation}\" → \"{replacement}\"")
+        abbrev_text = self.abbrev_text
+        abbrev_region = self.abbrev_region
+        # Clear pending state
+        self.abbrev_text = ""
+        self.abbrev_region = None
         # Replace the text
         self.view.run_command('lean_replace_abbreviation', {
-            'region_begin': self.pending_region.begin(),
-            'region_end': self.pending_region.end(),
+            'region_begin': abbrev_region.begin(),
+            'region_end': abbrev_region.end(),
             'replacement': replacement
         })
-        # Clear pending state
-        self.pending_abbreviation = ""
-        self.pending_region = None
+        print(f"{PACKAGE_NAME}: Completed abbreviation sequence: \"{abbrev_text}\" → \"{replacement}\"")
 
     def on_selection_modified(self):
         """
         Called when selection (cursor) moves
         """
         # If cursor moves away from abbreviation, try to replace it
-        if self.pending_region:
+        if self.abbrev_region:
             sel = self.view.sel()
             if len(sel) > 0:
                 point = sel[0].begin()
-                if not self.pending_region.contains(point):
+                if not self.abbrev_region.contains(point):
                     # Cursor moved away, try to replace
-                    if self.pending_abbreviation:
-                        replacement = _unicode_input.get_replacement(self.pending_abbreviation)
+                    if self.abbrev_text:
+                        replacement = _unicode_input.get_replacement(self.abbrev_text)
                         if replacement:
                             self.replace_abbreviation(replacement)
+                            return
                     # Clear pending
-                    self.pending_abbreviation = ""
-                    self.pending_region = None
+                    self.abbrev_text = ""
+                    self.abbrev_region = None
+
+
 
 class LeanReplaceAbbreviationCommand(LspTextCommand):
     """
@@ -273,53 +293,14 @@ class LeanReplaceAbbreviationCommand(LspTextCommand):
     Usage: `view.run_command('lean_replace_abbreviation')`
     """
 
-    def run(self, edit: sublime.Edit, region_begin: int, region_end: int, replacement: str):
+    def run(self, edit: sublime.Edit,
+        region_begin: int,
+        region_end: int,
+        replacement: str):
         region = sublime.Region(region_begin, region_end)
         self.view.replace(edit, region, replacement)
 
-class LeanConvertAbbreviationCommand(LspTextCommand):
-    """
-    Command to manually convert current abbreviation (triggered by Tab).
-    Usage: `view.run_command('lean_convert_abbreviation')`
-    """
 
-    def is_enabled(self, event: Optional[Dict] = None, point: Optional[int] = None) -> bool:
-        # Only enable for Lean files
-        syntax = self.view.settings().get('syntax')
-        return (syntax is not None) and ('Lean' in syntax)
-
-    def run(self, edit: sublime.Edit):
-        settings = sublime.load_settings(SETTINGS_FILE)
-        enabled: bool = settings.get("settings", {}).get(SETTING_UNICODE_ENABLED, True) #type:ignore
-        if not enabled:
-            return
-        leader: str = settings.get("settings", {}).get(SETTING_UNICODE_LEADER, "\\") #type:ignore
-        # Get cursor position
-        sel = self.view.sel()
-        if len(sel) == 0:
-            return
-        point = sel[0].begin()
-        # Look backwards for the leader character
-        line_region = self.view.line(point)
-        line_start = line_region.begin()
-        # Search backwards for leader
-        search_start = max(line_start, point - 20)  # Look back max 20 chars
-        text_before = self.view.substr(sublime.Region(search_start, point))
-        leader_pos = text_before.rfind(leader)
-        if leader_pos == -1:
-            return
-        # Get the abbreviation text
-        abbrev_start = search_start + leader_pos + len(leader)
-        abbrev_text = self.view.substr(sublime.Region(abbrev_start, point))
-        # Find shortest matching abbreviation
-        match = _unicode_input.get_shortest_match(abbrev_text)
-        if match:
-            replacement = _unicode_input.get_replacement(match)
-            if replacement:
-                # Replace from leader to end of match
-                replace_end = abbrev_start + len(match)
-                replace_region = sublime.Region(search_start + leader_pos, replace_end)
-                self.view.replace(edit, replace_region, replacement)
 
 class LeanShowAbbreviationsCommand(LspWindowCommand):
     """
