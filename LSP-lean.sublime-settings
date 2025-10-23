@@ -25,24 +25,27 @@
 
 		// Whether or not to display current goal information (the ongoing goal at cursor)
 		// This shows the progress of the proof at the current cursor position
-		"display_current_goals": true,
+		"infoview_display_current_goals": true,
 
 		// Whether or not to display expected type information (the type of the subterm at cursor)
 		// This shows what type Lean expects at the current cursor position
-		"display_expected_type": true,
+		"infoview_display_expected_type": true,
+
+		// Display "No goals" message when cursor is at a position with no goals
+		// If false, the infoview will not be displauyed when there are no goals
+		"infoview_display_nogoals": false,
 
 		// Display mode: Use mdpopups (true) or output panel (false)
 		// mdpopups shows a popup at the cursor position with rich formatting
 		// output panel shows goals in a bottom panel (better for pinning/keeping visible, allows for copy/paste)
-		"display_mdpopup": true,
+		"infoview_mdpopup": true,
 
-		// Display "No goals" message when cursor is at a position with no goals
-		// If false, the infoview will not be displauyed when there are no goals
-		"display_nogoals": false,
+		// How much time (in seconds) to wait before updating the infoview display
+		"infoview_delay": 0.2,
 
 		// The path of the syntax coloring file to use in the infoview display
 		// This setting has no effect if "display_mdpopup" is true
-		"display_syntaxfile": "Packages/Lean/Lean.sublime-syntax",
+		"infoview_syntaxfile": "Packages/Lean/Lean.sublime-syntax",
 
 		// Unicode Input Settings
 		

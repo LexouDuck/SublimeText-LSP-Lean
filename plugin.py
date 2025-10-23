@@ -8,7 +8,11 @@ from LSP.plugin import Session
 from LSP.plugin.core.typing import Any, Dict, List, Tuple
 from LSP.plugin.core.sessions import AbstractPlugin, SessionViewProtocol, register_plugin, unregister_plugin
 
-from .plugin_utils import PACKAGE_NAME, SETTINGS_FILE
+from .plugin_utils import (
+    PACKAGE_NAME,
+    SETTINGS_FILE,
+    SETTING_INFOVIEW_DELAY,
+)
 from .plugin_infoview import LeanInfoview
 from .plugin_unicode import plugin_loaded as unicode_plugin_loaded
 
@@ -84,6 +88,7 @@ class Lean(AbstractPlugin):
         if not session:
             sublime.status_message(f"{PACKAGE_NAME}: No active session found")
             return
+        delay: float = session.config.settings.get(SETTING_INFOVIEW_DELAY)
         view = session_view.view
         # Only process if this is a Lean file
         if not self.is_lean_view(view):
@@ -95,7 +100,7 @@ class Lean(AbstractPlugin):
             except:
                 pass
         # Wait a bit to avoid too many requests while typing/moving cursor
-        self._pending_timeout = threading.Timer(0.1, lambda: self._do_request(session, view))
+        self._pending_timeout = threading.Timer(delay, lambda: self._do_request(session, view))
         self._pending_timeout.start()
 
     def _do_request(self, session: Session, view: sublime.View):

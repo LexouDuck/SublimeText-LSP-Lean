@@ -10,11 +10,11 @@ from LSP.plugin.core.protocol import Response
 from .plugin_utils import (
     PACKAGE_NAME,
     #SETTINGS_FILE,
-    SETTING_DISPLAY_CURRENT_GOALS,
-    SETTING_DISPLAY_EXPECTED_TYPE,
-    SETTING_DISPLAY_MDPOPUP,
-    SETTING_DISPLAY_NOGOALS,
-    SETTING_DISPLAY_SYNTAXFILE,
+    SETTING_INFOVIEW_DISPLAY_CURRENT_GOALS,
+    SETTING_INFOVIEW_DISPLAY_EXPECTED_TYPE,
+    SETTING_INFOVIEW_DISPLAY_NOGOALS,
+    SETTING_INFOVIEW_MDPOPUP,
+    SETTING_INFOVIEW_SYNTAXFILE,
     get_lean_session
 )
 
@@ -59,14 +59,14 @@ class LeanInfoview:
             }
         }
         # Send custom Lean LSP request for plain goal
-        if session.config.settings.get(SETTING_DISPLAY_CURRENT_GOALS):
+        if session.config.settings.get(SETTING_INFOVIEW_DISPLAY_CURRENT_GOALS):
             #print(f"{PACKAGE_NAME}: Requesting goal at {row}:{col} for {view.file_name()}")
             request: Request[GoalData] = Request("$/lean/plainGoal", params)
             session.send_request(request, #type:ignore
                 lambda response: self.on_goal_response(session, view, response),
                 lambda error: sublime.error_message(f"{PACKAGE_NAME} Error: {error}"))
         # Also request expected type if enabled
-        if session.config.settings.get(SETTING_DISPLAY_EXPECTED_TYPE):
+        if session.config.settings.get(SETTING_INFOVIEW_DISPLAY_EXPECTED_TYPE):
             #print(f"{PACKAGE_NAME}: Requesting term at {row}:{col} for {view.file_name()}")
             term_goal_request: Request[TermGoalData] = Request("$/lean/plainTermGoal", params)
             session.send_request(term_goal_request, #type:ignore
@@ -104,10 +104,10 @@ class LeanInfoview:
         """
         Display both goals and expected type together
         """
-        display_goal = session.config.settings.get(SETTING_DISPLAY_CURRENT_GOALS)
-        display_type = session.config.settings.get(SETTING_DISPLAY_EXPECTED_TYPE)
-        display_mdpopup = session.config.settings.get(SETTING_DISPLAY_MDPOPUP)
-        display_nogoals = session.config.settings.get(SETTING_DISPLAY_NOGOALS)
+        display_goal = session.config.settings.get(SETTING_INFOVIEW_DISPLAY_CURRENT_GOALS)
+        display_type = session.config.settings.get(SETTING_INFOVIEW_DISPLAY_EXPECTED_TYPE)
+        display_mdpopup = session.config.settings.get(SETTING_INFOVIEW_MDPOPUP)
+        display_nogoals = session.config.settings.get(SETTING_INFOVIEW_DISPLAY_NOGOALS)
         # Get stored data (if available)
         view_id = view.id()
         goal_data = self._goal_data.get(view_id)
@@ -141,8 +141,8 @@ class LeanInfoview:
         """
         if not window:
             return
-        display_nogoals = session.config.settings.get(SETTING_DISPLAY_NOGOALS)
-        display_syntaxfile = session.config.settings.get(SETTING_DISPLAY_SYNTAXFILE)
+        display_nogoals = session.config.settings.get(SETTING_INFOVIEW_DISPLAY_NOGOALS)
+        display_syntaxfile = session.config.settings.get(SETTING_INFOVIEW_SYNTAXFILE)
         # Create or get the infoview panel
         panel_name = "lean_infoview"
         panel = window.find_output_panel(panel_name)
@@ -304,7 +304,7 @@ class LeanInfoview:
         """
         Format goal data and expected type as markdown for mdpopups
         """
-        display_nogoals = session.config.settings.get(SETTING_DISPLAY_NOGOALS)
+        display_nogoals = session.config.settings.get(SETTING_INFOVIEW_DISPLAY_NOGOALS)
 
         output: List[str] = []
         output.append('### Lean Infoview\n')
@@ -393,7 +393,7 @@ class ToggleLeanInfoviewCursorCommand(LspWindowCommand):
         if not session:
             sublime.status_message(f"{PACKAGE_NAME}: No active session")
             return
-        display_mdpopup = session.config.settings.get(SETTING_DISPLAY_MDPOPUP)
+        display_mdpopup = session.config.settings.get(SETTING_INFOVIEW_MDPOPUP)
         # output panel
         if not display_mdpopup:
             panel_name = "lean_infoview"
