@@ -1,0 +1,19 @@
+[
+    // Convert unicode abbreviation with Tab
+    {
+        "keys": ["tab"],
+        "command": "lean_convert_abbreviation",
+        "context": [
+            { "key": "selector", "operator": "equal", "operand": "source.lean" }
+        ]
+    },
+    
+    // Show all abbreviations
+    {
+        "keys": ["ctrl+shift+u"],
+        "command": "lean_show_abbreviations",
+        "context": [
+            { "key": "selector", "operator": "equal", "operand": "source.lean" }
+        ]
+    }
+]

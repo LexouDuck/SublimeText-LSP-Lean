@@ -7,12 +7,16 @@
 			"default": "// Settings in here override those in \"LSP-lean/LSP-lean.sublime-settings\"\n\n{\n\t$0\n}\n"
 		}
 	},
-    {
-        "caption": "LSP-lean: Show/Hide Lean Infoview Panel",
-        "command": "toggle_lean_infoview_cursor",
-    },
-    {
-        "caption": "LSP-lean: Display Lean Infoview for cursor position",
-        "command": "lean_infoview",
-    },
+	{
+		"caption": "LSP-lean: Show/Hide Lean Infoview Panel",
+		"command": "toggle_lean_infoview_cursor",
+	},
+	{
+		"caption": "LSP-lean: Display Lean Infoview for cursor position",
+		"command": "lean_infoview",
+	},
+	{
+		"caption": "LSP-lean: Show all available unicode abbreviations",
+		"command": "lean_show_abbreviations",
+	},
 ]

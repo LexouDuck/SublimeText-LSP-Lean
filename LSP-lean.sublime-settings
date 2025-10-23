@@ -19,7 +19,9 @@
 		"changeConfiguration": true
 	},
 
-	"settings": {
+	"settings":
+	{
+		// Infoview Display Settings
 
 		// Whether or not to display current goal information (the ongoing goal at cursor)
 		// This shows the progress of the proof at the current cursor position
@@ -40,6 +42,25 @@
 
 		// The path of the syntax coloring file to use in the infoview display
 		// This setting has no effect if "display_mdpopup" is true
-		"display_syntaxfile": "Packages/Lean/Lean.sublime-syntax"
+		"display_syntaxfile": "Packages/Lean/Lean.sublime-syntax",
+
+		// Unicode Input Settings
+		
+		// Enable unicode abbreviation input (e.g., \alpha → α)
+		"unicode_input_enabled": true,
+		
+		// Leader character to trigger unicode input (default: backslash)
+		"unicode_input_leader": "\\",
+		
+		// Ending character to complete unicode input (default: tab)
+		"unicode_input_ender": "\t",
+		
+		// Enable eager replacement when abbreviation is complete.
+		// If false, requires Tab to trigger replacement
+		"unicode_input_eager_replacement": false,
+		
+		// Custom abbreviation translations (JSON object)
+		// Example: {"foo": "☺"} will make \foo produce ☺
+		"unicode_input_custom_translations": {}
 	}
 }

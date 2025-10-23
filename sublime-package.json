@@ -45,6 +45,36 @@
                       "type": "string",
                       "default": "Packages/Lean/Lean.sublime-syntax",
                       "description": "The path of the syntax coloring file to use in the infoview display"
+                    },
+                    "unicode_input_enabled":
+                    {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Enable unicode abbreviation input (e.g., \\alpha → α)"
+                    },
+                    "unicode_input_leader":
+                    {
+                      "type": "string",
+                      "default": "\\",
+                      "description": "Leader character to trigger unicode input (default: backslash)"
+                    },
+                    "unicode_input_ender":
+                    {
+                      "type": "string",
+                      "default": "\t",
+                      "description": "Ending character to complete unicode input (default: tab)"
+                    },
+                    "unicode_input_eager_replacement":
+                    {
+                      "type": "boolean",
+                      "default": true,
+                      "description": "Enable eager replacement when abbreviation is complete. If false, requires Tab to trigger replacement"
+                    },
+                    "unicode_input_custom_translations":
+                    {
+                      "type": "object",
+                      "default": {},
+                      "description": "Custom abbreviation translations (JSON object). Example: {\"foo\": \"☺\"} will make \\foo produce ☺"
                     }
                   }
                 }
