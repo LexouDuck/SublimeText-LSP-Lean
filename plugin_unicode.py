@@ -16,6 +16,7 @@ from .plugin_utils import (
     SETTING_UNICODE_CUSTOM,
     get_lean_session
 )
+from .plugin_unicode_abbreviations import get_default_abbreviations
 
 
 
@@ -33,13 +34,7 @@ class LeanUnicodeInput:
         Load abbreviations from the bundled JSON file and custom translations
         """
         # Load default abbreviations from package
-        abbrev_path = os.path.join(sublime.packages_path(), PACKAGE_NAME, "abbreviations.json")
-        try:
-            with open(abbrev_path, 'r', encoding='utf-8') as f:
-                self.abbreviations = json.load(f)
-        except FileNotFoundError:
-            # Fallback to common Lean abbreviations
-            self.abbreviations = self.get_default_abbreviations()
+        self.abbreviations = get_default_abbreviations()
         # Load custom translations from settings
         settings = sublime.load_settings(SETTINGS_FILE)
         custom: Dict[str, str] = settings.get("settings", {}).get(SETTING_UNICODE_CUSTOM, {}) #type:ignore
@@ -92,63 +87,6 @@ class LeanUnicodeInput:
             if prefix in self.abbreviations:
                 return prefix
         return None
-
-    def get_default_abbreviations(self) -> Dict[str, str]:
-        """
-        Return common Lean unicode abbreviations as fallback
-        """
-        return {
-            # Greek letters
-            "alpha": "α", "beta": "β", "gamma": "γ", "delta": "δ",
-            "epsilon": "ε", "zeta": "ζ", "eta": "η", "theta": "θ",
-            "iota": "ι", "kappa": "κ", "lambda": "λ", "mu": "μ",
-            "nu": "ν", "xi": "ξ", "pi": "π", "rho": "ρ",
-            "sigma": "σ", "tau": "τ", "upsilon": "υ", "phi": "φ",
-            "chi": "χ", "psi": "ψ", "omega": "ω",
-
-            # Capital Greek
-            "Gamma": "Γ", "Delta": "Δ", "Theta": "Θ", "Lambda": "Λ",
-            "Xi": "Ξ", "Pi": "Π", "Sigma": "Σ", "Phi": "Φ",
-            "Psi": "Ψ", "Omega": "Ω",
-
-            # Logic symbols
-            "forall": "∀", "exists": "∃",
-            "not": "¬", "and": "∧", "or": "∨",
-            "top": "⊤", "bot": "⊥",
-
-            # Arrows
-            "to": "→", "lr": "↔", "ud": "↕",
-            "r": "→", "l": "←", "u": "↑", "d": "↓",
-            "=>": "⇒", "<=": "⇐", "iff": "↔",
-            "mapsto": "↦", "implies": "→",
-
-            # Relations
-            "le": "≤", "ge": "≥", "ne": "≠",
-            "sim": "∼", "equiv": "≡", "approx": "≈", "cong": "≅",
-            "subset": "⊂", "supset": "⊃",
-            "subseteq": "⊆", "supseteq": "⊇",
-            "in": "∈", "notin": "∉",
-            "cap": "∩", "cup": "∪",
-
-            # Math operators
-            "times": "×", "div": "÷",
-            "pm": "±", "mp": "∓",
-            "cdot": "·", "circ": "∘",
-            "oplus": "⊕", "ominus": "⊖", "otimes": "⊗", "odot": "⊙",
-
-            # Special brackets
-            "<>": "⟨⟩",
-            "<<": "⟪", ">>": "⟫",
-            "[[": "⟦", "]]": "⟧",
-
-            # Other
-            "inf": "∞", "int": "∫",
-            "partial": "∂", "nabla": "∇",
-            "sum": "∑", "prod": "∏",
-            "sqcup": "⊔", "sqcap": "⊓",
-            "emptyset": "∅",
-            "N": "ℕ", "Z": "ℤ", "Q": "ℚ", "R": "ℝ", "C": "ℂ",
-        }
 
 
 
@@ -204,7 +142,7 @@ class LeanUnicodeListener(sublime_plugin.ViewEventListener):
                     # Start tracking abbreviation
                     self.abbrev_region = sublime.Region(start, point)
                     self.abbrev_text = ""
-                    print(f"{PACKAGE_NAME}: Started abbreviation sequence at {point}")
+                    #print(f"{PACKAGE_NAME}: Started abbreviation sequence at {point}")
 
     def update_abbreviation(self, point: int, leader: str, ender: str, eager: bool):
         """
@@ -215,8 +153,7 @@ class LeanUnicodeListener(sublime_plugin.ViewEventListener):
         # Get the text of the current abbreviation (without leader)
         abbrev_region = sublime.Region(self.abbrev_region.begin() + len(leader), point)
         abbrev_text = self.view.substr(abbrev_region)
-        print(f"{PACKAGE_NAME}: Typing abbreviation sequence at {point}: \"{abbrev_text}\"")
-        # Check if this is a valid abbreviation or prefix
+        #print(f"{PACKAGE_NAME}: Typing abbreviation sequence at {point}: \"{abbrev_text}\"")
         if _unicode_input.is_prefix(abbrev_text):
             self.abbrev_text = abbrev_text
             self.abbrev_region = sublime.Region(self.abbrev_region.begin(), point)
@@ -244,7 +181,7 @@ class LeanUnicodeListener(sublime_plugin.ViewEventListener):
                     return
             self.abbrev_text = ""
             self.abbrev_region = None
-            print(f"{PACKAGE_NAME}: Invalid abbreviation: \"{abbrev_text}\"")
+            sublime.error_message(f"{PACKAGE_NAME}: Invalid abbreviation: \"{abbrev_text}\"")
 
     def replace_abbreviation(self, replacement: str):
         """
@@ -263,7 +200,7 @@ class LeanUnicodeListener(sublime_plugin.ViewEventListener):
             'region_end': abbrev_region.end(),
             'replacement': replacement
         })
-        print(f"{PACKAGE_NAME}: Completed abbreviation sequence: \"{abbrev_text}\" → \"{replacement}\"")
+        sublime.status_message(f"{PACKAGE_NAME}: Completed abbreviation: \"{abbrev_text}\" → \"{replacement}\"")
 
     def on_selection_modified(self):
         """

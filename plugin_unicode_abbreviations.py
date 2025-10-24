@@ -1,4 +1,8 @@
-{
+
+from LSP.plugin.core.typing import Dict
+
+def get_default_abbreviations() -> Dict[str, str]:
+    return {
     "{}": "{$CURSOR}",
     "{}_": "{$CURSOR}_",
     "{{}}": "⦃$CURSOR⦄",
@@ -1854,4 +1858,4 @@
     "miny": "⧿",
     "heq": "≍",
     "r!": "¡"
-}
+    }
