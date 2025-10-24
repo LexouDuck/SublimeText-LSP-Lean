@@ -91,7 +91,7 @@ class LeanUnicodeInput:
 
 
 # Global instance
-_unicode_input = LeanUnicodeInput()
+unicode_input = LeanUnicodeInput()
 
 
 
@@ -154,12 +154,12 @@ class LeanUnicodeListener(sublime_plugin.ViewEventListener):
         abbrev_region = sublime.Region(self.abbrev_region.begin() + len(leader), point)
         abbrev_text = self.view.substr(abbrev_region)
         #print(f"{PACKAGE_NAME}: Typing abbreviation sequence at {point}: \"{abbrev_text}\"")
-        if _unicode_input.is_prefix(abbrev_text):
+        if unicode_input.is_prefix(abbrev_text):
             self.abbrev_text = abbrev_text
             self.abbrev_region = sublime.Region(self.abbrev_region.begin(), point)
             # If eager replacement is enabled and this is a complete abbreviation
-            if eager and _unicode_input.is_complete_abbreviation(abbrev_text, strict=True):
-                replacement = _unicode_input.get_replacement(abbrev_text)
+            if eager and unicode_input.is_complete_abbreviation(abbrev_text, strict=True):
+                replacement = unicode_input.get_replacement(abbrev_text)
                 if replacement:
                     self.replace_abbreviation(replacement)
                     return
@@ -168,14 +168,14 @@ class LeanUnicodeListener(sublime_plugin.ViewEventListener):
                     self.abbrev_region.begin() + len(leader),
                     self.abbrev_region.end() - len(ender))
                 abbrev_text = self.view.substr(abbrev_text_region)
-                if _unicode_input.is_complete_abbreviation(abbrev_text):
-                    replacement = _unicode_input.get_replacement(abbrev_text)
+                if unicode_input.is_complete_abbreviation(abbrev_text):
+                    replacement = unicode_input.get_replacement(abbrev_text)
                     if replacement:
                         self.replace_abbreviation(replacement)
                         return
         else: # Not a valid prefix, clear pending
-            if eager and _unicode_input.is_complete_abbreviation(self.abbrev_text):
-                replacement = _unicode_input.get_replacement(self.abbrev_text)
+            if eager and unicode_input.is_complete_abbreviation(self.abbrev_text):
+                replacement = unicode_input.get_replacement(self.abbrev_text)
                 if replacement:
                     self.replace_abbreviation(replacement)
                     return
@@ -214,7 +214,7 @@ class LeanUnicodeListener(sublime_plugin.ViewEventListener):
                 if not self.abbrev_region.contains(point):
                     # Cursor moved away, try to replace
                     if self.abbrev_text:
-                        replacement = _unicode_input.get_replacement(self.abbrev_text)
+                        replacement = unicode_input.get_replacement(self.abbrev_text)
                         if replacement:
                             self.replace_abbreviation(replacement)
                             return
@@ -264,7 +264,7 @@ class LeanShowAbbreviationsCommand(LspWindowCommand):
         settings = sublime.load_settings(SETTINGS_FILE)
         leader: str = settings.get("settings", {}).get(SETTING_UNICODE_LEADER, "\\") #type:ignore
         # Sort abbreviations by category (heuristic)
-        abbrevs = sorted(_unicode_input.abbreviations.items())
+        abbrevs = sorted(unicode_input.abbreviations.items())
         for abbrev, char in abbrevs:
             content += f"{leader}{abbrev:<20} → {char}\n"
         view.run_command('append', {'characters': content})
@@ -277,4 +277,4 @@ def plugin_loaded():
     Called when plugin is loaded
     """
     # Reload abbreviations
-    _unicode_input.load_abbreviations()
+    unicode_input.load_abbreviations()

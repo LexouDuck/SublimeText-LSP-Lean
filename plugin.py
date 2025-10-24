@@ -1,4 +1,5 @@
 from typing_extensions import override
+import time
 import weakref
 import threading
 
@@ -13,7 +14,7 @@ from .plugin_utils import (
     SETTING_INFOVIEW_DELAY,
 )
 from .plugin_infoview import LeanInfoview
-from .plugin_unicode import plugin_loaded as unicode_plugin_loaded
+from .plugin_unicode import unicode_input
 
 
 
@@ -32,7 +33,7 @@ class Lean(AbstractPlugin):
         file_path = f"Packages/{PACKAGE_NAME}/{file_name}"
         return sublime.load_settings(file_name), file_path
 
-    def __init__(self, weaksession: weakref.ref[Session]) -> None:
+    def __init__(self, weaksession: 'weakref.ref[Session]') -> None:
         super().__init__(weaksession)
         self.lean_infoview:LeanInfoview = LeanInfoview()
 
@@ -44,15 +45,8 @@ class Lean(AbstractPlugin):
         session = session_view.session
         view = session_view.view
         delay: float = session.config.settings.get(SETTING_INFOVIEW_DELAY)
-        # Cancel any pending request
-        if hasattr(self, '_pending_timeout'):
-            try:
-                self._pending_timeout.cancel()
-            except:
-                pass
-        # Wait a bit to avoid too many requests while typing/moving cursor
-        self._pending_timeout = threading.Timer(delay, lambda: self._do_request(session, view))
-        self._pending_timeout.start()
+        time.sleep(delay)
+        self._do_request(session, view)
 
     def _do_request(self, session: Session, view: sublime.View):
         """
@@ -71,7 +65,7 @@ class Lean(AbstractPlugin):
 
 def plugin_loaded() -> None:
     register_plugin(Lean)
-    unicode_plugin_loaded()  # Initialize unicode input
+    unicode_input.load_abbreviations()  # Initialize unicode input
 
 def plugin_unloaded() -> None:
     unregister_plugin(Lean)

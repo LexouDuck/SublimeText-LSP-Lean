@@ -41,7 +41,7 @@
 		"infoview_mdpopup": true,
 
 		// How much time (in seconds) to wait before updating the infoview display
-		"infoview_delay": 0.2,
+		"infoview_delay": 0.1,
 
 		// The path of the syntax coloring file to use in the infoview display
 		// This setting has no effect if "display_mdpopup" is true
