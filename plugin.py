@@ -1,11 +1,10 @@
-import os
 from typing_extensions import override
 import weakref
 import threading
 
 import sublime
 from LSP.plugin import Session
-from LSP.plugin.core.typing import Any, Dict, List, Tuple
+from LSP.plugin.core.typing import Tuple
 from LSP.plugin.core.sessions import AbstractPlugin, SessionViewProtocol, register_plugin, unregister_plugin
 
 from .plugin_utils import (
