@@ -385,11 +385,13 @@ class LeanInfoview:
 
 class ToggleLeanInfoviewCursorCommand(LspWindowCommand):
     """
-    Command to show the Lean infoview (panel or popup depends on settings)
+    Command to toggle the Lean infoview visibility.
     """
 
+    session_name = PACKAGE_NAME
+
     def run(self):
-        session = self.session_by_name(PACKAGE_NAME)
+        session = self.session()
         if not session:
             sublime.status_message(f"{PACKAGE_NAME}: No active session")
             return
@@ -428,20 +430,19 @@ class ToggleLeanInfoviewCursorCommand(LspWindowCommand):
 
 class LeanInfoviewCommand(LspTextCommand):
     """
-    Command to explicitly request goal at cursor position
+    Command to explicitly request goal at cursor position.
     Whether an output panel or popup appears depends on settings
     Usage: `view.run_command('lean_infoview')`
     """
-    capability = 'textDocumentSync'
+
     session_name = PACKAGE_NAME
 
     def run(self, edit: sublime.Edit):
-        view = self.view
-        # Get session
-        session = get_lean_session(view)
+        session = self.session_by_name(PACKAGE_NAME)
         if not session:
             sublime.status_message(f"{PACKAGE_NAME}: No active session")
             return
+        view = self.view
         if not view.file_name():
             sublime.status_message(f"{PACKAGE_NAME}: No open file path")
             return
