@@ -236,6 +236,14 @@ class LeanReplaceAbbreviationCommand(LspTextCommand):
         replacement: str):
         region = sublime.Region(region_begin, region_end)
         self.view.replace(edit, region, replacement)
+        if ("$CURSOR" in replacement):
+            index = replacement.index("$CURSOR")
+            region = sublime.Region(
+                region_begin + index,
+                region_begin + index + len("$CURSOR"))
+            self.view.erase(edit, region)
+            self.view.sel().clear()
+            self.view.sel().add(region.begin())
 
 
 

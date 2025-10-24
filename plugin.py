@@ -32,7 +32,7 @@ class Lean(AbstractPlugin):
         file_path = f"Packages/{PACKAGE_NAME}/{file_name}"
         return sublime.load_settings(file_name), file_path
 
-    def __init__(self, weaksession: 'weakref.ref[Session]') -> None:
+    def __init__(self, weaksession: weakref.ref[Session]) -> None:
         super().__init__(weaksession)
         self.lean_infoview:LeanInfoview = LeanInfoview()
 
@@ -41,9 +41,9 @@ class Lean(AbstractPlugin):
         """
         Called when cursor position changes
         """
-        session = session_view.session # self.weaksession()
-        delay: float = session.config.settings.get(SETTING_INFOVIEW_DELAY)
+        session = session_view.session
         view = session_view.view
+        delay: float = session.config.settings.get(SETTING_INFOVIEW_DELAY)
         # Cancel any pending request
         if hasattr(self, '_pending_timeout'):
             try:
