@@ -28,38 +28,6 @@ class Lean(AbstractPlugin):
         return PACKAGE_NAME
 
     @classmethod
-    def basedir(cls) -> str:
-        return os.path.join(cls.storage_path(), cls.name())
-
-    @classmethod
-    def version_file(cls) -> str:
-        return os.path.join(cls.basedir(), "VERSION")
-
-    @classmethod
-    def platform_arch(cls) -> str:
-        return {
-            "linux_x64":   "linux-x64.tar.gz",
-            "osx_arm64":   "darwin-arm64.tar.gz",
-            "osx_x64":     "darwin-x64.tar.gz",
-            "windows_x32": "win32-ia32.zip",
-            "windows_x64": "win32-x64.zip",
-        }[sublime.platform() + "_" + sublime.arch()]
-
-    @classmethod
-    def needs_update_or_installation(cls) -> bool:
-        settings, _ = cls.configuration()
-        server_version = str(settings.get("server_version"))
-        try:
-            with open(cls.version_file(), "r") as fp:
-                return server_version != fp.read().strip()
-        except OSError:
-            return True
-
-    @classmethod
-    def install_or_update(cls) -> None:
-        pass
-
-    @classmethod
     def configuration(cls) -> Tuple[sublime.Settings, str]:
         file_name = SETTINGS_FILE
         file_path = f"Packages/{PACKAGE_NAME}/{file_name}"
@@ -68,8 +36,6 @@ class Lean(AbstractPlugin):
     def __init__(self, weaksession: 'weakref.ref[Session]') -> None:
         super().__init__(weaksession)
         self.lean_infoview:LeanInfoview = LeanInfoview()
-        self._settings_change_count = 0
-        self._queued_changes: List[Dict[str, Any]] = []
 
     @override
     def on_selection_modified_async(self, session_view: SessionViewProtocol):
