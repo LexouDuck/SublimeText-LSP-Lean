@@ -71,14 +71,6 @@ class Lean(AbstractPlugin):
         self._settings_change_count = 0
         self._queued_changes: List[Dict[str, Any]] = []
 
-    @staticmethod
-    def is_lean_view(view: sublime.View) -> bool:
-        """
-        Check if view is a Lean file
-        """
-        syntax = view.settings().get('syntax')
-        return (syntax and ('Lean' in syntax)) #type:ignore
-
     @override
     def on_selection_modified_async(self, session_view: SessionViewProtocol):
         """
@@ -90,9 +82,6 @@ class Lean(AbstractPlugin):
             return
         delay: float = session.config.settings.get(SETTING_INFOVIEW_DELAY)
         view = session_view.view
-        # Only process if this is a Lean file
-        if not self.is_lean_view(view):
-            return
         # Cancel any pending request
         if hasattr(self, '_pending_timeout'):
             try:
