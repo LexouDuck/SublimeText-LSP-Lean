@@ -77,9 +77,6 @@ class Lean(AbstractPlugin):
         Called when cursor position changes
         """
         session = session_view.session # self.weaksession()
-        if not session:
-            sublime.status_message(f"{PACKAGE_NAME}: No active session found")
-            return
         delay: float = session.config.settings.get(SETTING_INFOVIEW_DELAY)
         view = session_view.view
         # Cancel any pending request
