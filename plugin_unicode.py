@@ -269,12 +269,3 @@ class LeanShowAbbreviationsCommand(LspWindowCommand):
             content += f"{leader}{abbrev:<20} → {char}\n"
         view.run_command('append', {'characters': content})
         view.set_read_only(True)
-
-
-
-def plugin_loaded():
-    """
-    Called when plugin is loaded
-    """
-    # Reload abbreviations
-    unicode_input.load_abbreviations()
