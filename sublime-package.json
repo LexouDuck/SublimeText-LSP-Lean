@@ -41,11 +41,6 @@
                       "default": true,
                       "description": "Display mode: Use mdpopups (true) or output panel (false)"
                     },
-                    "infoview_delay": {
-                      "type": "number",
-                      "default": 0.1,
-                      "description": "How much time (in seconds) to wait before updating the infoview display"
-                    },
                     "infoview_syntaxfile": {
                       "type": "string",
                       "default": "Packages/Lean/Lean.sublime-syntax",

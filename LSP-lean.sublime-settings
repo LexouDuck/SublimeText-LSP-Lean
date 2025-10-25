@@ -40,9 +40,6 @@
 		// output panel shows goals in a bottom panel (better for pinning/keeping visible, allows for copy/paste)
 		"infoview_mdpopup": true,
 
-		// How much time (in seconds) to wait before updating the infoview display
-		"infoview_delay": 0.1,
-
 		// The path of the syntax coloring file to use in the infoview display
 		// This setting has no effect if "display_mdpopup" is true
 		"infoview_syntaxfile": "Packages/Lean/Lean.sublime-syntax",

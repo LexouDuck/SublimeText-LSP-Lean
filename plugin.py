@@ -11,7 +11,6 @@ from LSP.plugin.core.sessions import AbstractPlugin, SessionViewProtocol, regist
 from .plugin_utils import (
     PACKAGE_NAME,
     SETTINGS_FILE,
-    SETTING_INFOVIEW_DELAY,
 )
 from .plugin_infoview import LeanInfoview
 from .plugin_unicode import unicode_input
@@ -40,18 +39,10 @@ class Lean(AbstractPlugin):
     @override
     def on_selection_modified_async(self, session_view: SessionViewProtocol):
         """
-        Called when cursor position changes
+        Called when cursor position changes, performs goal state request
         """
         session = session_view.session
         view = session_view.view
-        delay: float = session.config.settings.get(SETTING_INFOVIEW_DELAY)
-        time.sleep(delay)
-        self._do_request(session, view)
-
-    def _do_request(self, session: Session, view: sublime.View):
-        """
-        Actually perform the goal state request
-        """
         # Get cursor position
         sel = view.sel()
         if len(sel) == 0:
